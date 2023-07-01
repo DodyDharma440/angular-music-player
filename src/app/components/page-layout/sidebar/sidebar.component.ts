@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { menuItems } from 'src/app/constants/page-layout.constant';
 
 @Component({
   selector: 'nav[sidebar]',
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-  menuItems = [
-    { label: 'Home', icon: 'fa-solid fa-house', path: '/' },
-    { label: 'Artists', icon: 'fa-solid fa-users', path: '/artists' },
-    { label: 'Categories', icon: 'fa-solid fa-list', path: '/categories' },
-  ];
+  @Input() canRender: boolean = true;
+
+  menus = menuItems;
 
   constructor(private router: Router) {}
 

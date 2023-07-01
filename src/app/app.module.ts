@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +9,10 @@ import { SidebarComponent } from './components/page-layout/sidebar/sidebar.compo
 import { HomeComponent } from './pages/home/home.component';
 import { ArtistsComponent } from './pages/artists/artists.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { LoginComponent } from './pages/login/login.component';
+import { LoginCallbackComponent } from './pages/login-callback/login-callback.component';
+import { AuthInterceptor } from './helpers/auth.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -18,9 +22,14 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     HomeComponent,
     ArtistsComponent,
     CategoriesComponent,
+    LoginComponent,
+    LoginCallbackComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

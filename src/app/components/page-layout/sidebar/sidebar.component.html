@@ -5,7 +5,7 @@
   <div class="my-8">
     <h2 class="text-md text-gray-400 mb-3">Menu</h2>
     <div
-      *ngFor="let item of menuItems"
+      *ngFor="let item of menus"
       class="flex items-center rounded-lg px-3 py-3 my-1 hover:bg-gray-50 gap-4 cursor-pointer text-gray-700"
       [routerLink]="item.path"
       [ngClass]="{ 'text-orange-500 bg-white': isMenuActive(item.path) }"
