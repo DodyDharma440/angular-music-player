@@ -13,6 +13,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LoginCallbackComponent } from './pages/login-callback/login-callback.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { HomeHeaderComponent } from './pages/home/components/home-header/home-header.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     CategoriesComponent,
     LoginComponent,
     LoginCallbackComponent,
+    HomeHeaderComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [

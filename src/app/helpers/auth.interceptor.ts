@@ -17,6 +17,12 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (!req.url.includes('http')) {
+      req = req.clone({
+        url: `${spotifyConfig.baseUrl}${req.url}`,
+      });
+    }
+
     const isApiUrl = req.url.startsWith(spotifyConfig.baseUrl);
     if (this.authService.isAuthenticated() && isApiUrl) {
       req = req.clone({
