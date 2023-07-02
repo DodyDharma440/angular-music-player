@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { ArtistsComponent } from './pages/artists/artists.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LoginCallbackComponent } from './pages/login-callback/login-callback.component';
 import { AuthGuard } from './helpers/auth.guard';
+import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
 
 const routes: Routes = [
   {
@@ -27,8 +27,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'artists',
-    component: ArtistsComponent,
+    path: 'liked-songs',
+    component: LikedSongsComponent,
     canActivate: [AuthGuard],
   },
   {

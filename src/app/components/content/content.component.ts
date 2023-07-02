@@ -1,17 +1,19 @@
 import {
-  animate,
+  trigger,
   state,
   style,
   transition,
-  trigger,
+  animate,
 } from '@angular/animations';
-import { Component, Input, Renderer2 } from '@angular/core';
+import { Component, Input, Renderer2, TemplateRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'home-header',
-  templateUrl: './home-header.component.html',
+  selector: 'content',
+  templateUrl: './content.component.html',
   animations: [
     trigger('toggleMenu', [
       state(
@@ -33,18 +35,33 @@ import { AuthService } from 'src/app/services/auth.service';
     ]),
   ],
 })
-export class HomeHeaderComponent {
-  @Input() user: User | null = null;
+export class ContentComponent {
+  @Input() contentTitle: string = '';
+
+  user: User | null = null;
+
   isMenuOpen = false;
   isMenuClicked = false;
 
-  constructor(private authService: AuthService, private renderer: Renderer2) {
+  constructor(
+    private authService: AuthService,
+    private renderer: Renderer2,
+    private store: Store<State>
+  ) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.isMenuClicked) {
         this.isMenuOpen = false;
       }
       this.isMenuClicked = false;
     });
+  }
+
+  ngOnInit(): void {
+    this.store
+      .select((store) => store.user.userData)
+      .subscribe((data) => {
+        this.user = data;
+      });
   }
 
   onToggleMenu() {

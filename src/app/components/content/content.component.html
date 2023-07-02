@@ -1,0 +1,74 @@
+<div class="flex items-center">
+  <div class="flex items-center gap-3 text-gray-600">
+    <button class="px-4 py-1 hover:bg-gray-100 rounded-md">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="px-4 py-1 hover:bg-gray-100 rounded-md">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <div class="px-6 flex-1">
+    <ng-content select="[headerContent]"></ng-content>
+  </div>
+
+  <div class="flex items-center pl-4 gap-2">
+    <p class="text-gray-600">{{ user?.display_name }}</p>
+    <div class="relative inline-block text-left">
+      <div
+        class="flex items-center gap-2 cursor-pointer"
+        (click)="onToggleMenu(); preventCloseOnClick()"
+      >
+        <div
+          class="rounded-full w-10 h-10 bg-gray-200 flex items-center justify-center"
+        >
+          <img
+            class="object-contain"
+            *ngIf="user?.images?.length; else avatarFallback"
+            [src]="user?.images?.[0]"
+          />
+          <ng-template #avatarFallback>
+            <i class="fa-regular fa-user"></i>
+          </ng-template>
+        </div>
+        <i class="fa-solid fa-chevron-down text-xs"></i>
+      </div>
+
+      <div
+        [@toggleMenu]="isMenuOpen ? 'open' : 'close'"
+        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+        tabindex="-1"
+        (click)="preventCloseOnClick()"
+      >
+        <div class="py-1" role="none">
+          <button
+            type="submit"
+            class="text-gray-700 block w-full px-4 py-2 hover:bg-gray-100 text-left text-sm"
+            role="menuitem"
+            routerLink="/profile"
+          >
+            Your profile
+          </button>
+          <button
+            type="submit"
+            class="text-gray-700 block w-full px-4 py-2 hover:bg-gray-100 text-left text-sm"
+            role="menuitem"
+            (click)="onLogout()"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="my-8">
+  <h1 class="text-3xl font-[600]">{{ contentTitle }}</h1>
+  <div class="my-4">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -12,4 +12,8 @@ export class SpotifyService {
       `/browse/new-releases?country=ID&offset=0${params || ''}`
     );
   }
+
+  getLikedSongs(params?: string) {
+    return this.http.get(`/me/tracks?${params || ''}`);
+  }
 }

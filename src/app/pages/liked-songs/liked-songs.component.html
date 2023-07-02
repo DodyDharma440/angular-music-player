@@ -1,0 +1,72 @@
+<content contentTitle="Liked Songs">
+  <p class="text-orange-500 font-[600]">
+    {{ totalSongs }} Song<span *ngIf="totalSongs > 1">s</span>
+  </p>
+
+  <div class="my-4">
+    <div class="flex flex-col flex-nowrap border-t border-t-gray-300">
+      <div
+        class="px-4 py-2 border-b border-b-gray-300 flex items-center relative"
+        *ngFor="let item of songs; let i = index"
+      >
+        <div
+          *ngIf="isDisabled(item.track)"
+          class="absolute inset-0 bg-black bg-opacity-10 z-10"
+        ></div>
+
+        <div class="w-10 mr-4">
+          <div
+            class="flex relative items-center justify-center overflow-hidden border border-gray-200 rounded-full w-fit min-w-[32px] min-h-[32px] py-1 px-2 text-xs font-bold"
+          >
+            {{ i + 1 }}
+            <div
+              class="absolute inset-0 flex transform opacity-0 hover:opacity-100 transition-opacity duration-200 items-center cursor-pointer justify-center bg-white"
+            >
+              <i class="fa-solid fa-play text-xs text-gray-600 ml-[2px]"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-md w-12 h-12 shadow-md mr-3">
+          <img
+            [src]="item.track.album.images[0].url"
+            class="object-cover"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="flex flex-col justify-center flex-1">
+          <p class="font-bold mb-1">{{ item.track.name }}</p>
+          <span class="text-xs text-gray-500">{{
+            getArtistNames(item.track)
+          }}</span>
+        </div>
+
+        <div class="px-6 flex justify-center flex-1">
+          <p class="text-center font-[500] text-gray-600">
+            {{ item.track.album.name }}
+          </p>
+        </div>
+
+        <div class="px-6">
+          <p>{{ getDuration(item.track.duration_ms) }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center" *ngIf="isCanNextPage()">
+        <p
+          class="text-sm my-4 text-gray-500 cursor-pointer"
+          (click)="onLoadMore()"
+        >
+          Load More
+        </p>
+      </div>
+    </div>
+
+    <audio
+      *ngIf="selectedSong && selectedSong.preview_url"
+      [src]="selectedSong.preview_url"
+      autoplay
+    ></audio>
+  </div>
+</content>
