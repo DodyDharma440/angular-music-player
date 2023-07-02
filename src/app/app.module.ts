@@ -22,6 +22,7 @@ import { AlbumCardComponent } from './components/album-card/album-card.component
 import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
 import { ContentComponent } from './components/content/content.component';
 import { songsReducer } from './stores/song.reducer';
+import { SongPlayerComponent } from './components/song-player/song-player.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { songsReducer } from './stores/song.reducer';
     AlbumCardComponent,
     LikedSongsComponent,
     ContentComponent,
+    SongPlayerComponent,
   ],
   imports: [
     BrowserModule,

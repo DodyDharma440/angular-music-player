@@ -20,6 +20,7 @@
           >
             {{ i + 1 }}
             <div
+              (click)="onPlaySong(item.track)"
               class="absolute inset-0 flex transform opacity-0 hover:opacity-100 transition-opacity duration-200 items-center cursor-pointer justify-center bg-white"
             >
               <i class="fa-solid fa-play text-xs text-gray-600 ml-[2px]"></i>
@@ -62,11 +63,5 @@
         </p>
       </div>
     </div>
-
-    <audio
-      *ngIf="selectedSong && selectedSong.preview_url"
-      [src]="selectedSong.preview_url"
-      autoplay
-    ></audio>
   </div>
 </content>

@@ -42,4 +42,13 @@ export interface SongState {
     total: number;
     nextPage: number | null;
   };
+  playedSong: {
+    playlists: Song[];
+    song: Song | null;
+    // isShuffle: boolean;
+    // repeatMode: 'playlist' | 'song' | 'none';
+    // volume: number;
+    // isPlaying: boolean;
+    // isMuted: boolean;
+  };
 }

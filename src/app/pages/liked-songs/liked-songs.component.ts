@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { GetLikedSongsAction } from 'src/app/actions/songs.action';
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
+import { SongService } from 'src/app/services/song.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { msToMinutes } from 'src/app/utils/time';
 
@@ -25,7 +26,8 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
 
   constructor(
     private spotifyService: SpotifyService,
-    private store: Store<State>
+    private store: Store<State>,
+    private songService: SongService
   ) {}
 
   ngOnInit(): void {
@@ -101,5 +103,12 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
 
   isCanNextPage() {
     return this.totalSongs > this.songs.length;
+  }
+
+  onPlaySong(song: Song) {
+    this.songService.playSong(
+      song,
+      this.songs.map((s) => s.track)
+    );
   }
 }
