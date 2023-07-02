@@ -17,6 +17,10 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HomeHeaderComponent } from './pages/home/components/home-header/home-header.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './stores/user.reducer';
+import { NewAlbumsComponent } from './pages/home/components/new-albums/new-albums.component';
+import { PlaylistsComponent } from './pages/home/components/playlists/playlists.component';
+import { ShowsComponent } from './pages/home/components/shows/shows.component';
+import { AlbumCardComponent } from './components/album-card/album-card.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,10 @@ import { userReducer } from './stores/user.reducer';
     LoginComponent,
     LoginCallbackComponent,
     HomeHeaderComponent,
+    NewAlbumsComponent,
+    PlaylistsComponent,
+    ShowsComponent,
+    AlbumCardComponent,
   ],
   imports: [
     BrowserModule,

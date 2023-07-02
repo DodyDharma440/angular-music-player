@@ -1,0 +1,8 @@
+<div>
+  <p *ngIf="isLoading">Loading...</p>
+  <ng-container *ngIf="!isLoading">
+    <div class="flex gap-6 overflow-auto no-scrollbar my-4">
+      <album-card *ngFor="let album of albums" [album]="album"></album-card>
+    </div>
+  </ng-container>
+</div>
