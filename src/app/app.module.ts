@@ -15,6 +15,8 @@ import { LoginCallbackComponent } from './pages/login-callback/login-callback.co
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HomeHeaderComponent } from './pages/home/components/home-header/home-header.component';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './stores/user.reducer';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,9 @@ import { HomeHeaderComponent } from './pages/home/components/home-header/home-he
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({
+      user: userReducer,
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

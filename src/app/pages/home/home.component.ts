@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +10,13 @@ import { UserService } from 'src/app/services/user.service';
 export class HomeComponent implements OnInit {
   user: User | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.userService.getUserData().subscribe((data) => {
-      this.user = data as User;
-    });
+    this.store
+      .select((store) => store.user.userData)
+      .subscribe((data) => {
+        this.user = data;
+      });
   }
 }

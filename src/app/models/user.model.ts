@@ -20,3 +20,7 @@ export interface User {
   type: string;
   uri: string;
 }
+
+export interface UserState {
+  userData: User | null;
+}
