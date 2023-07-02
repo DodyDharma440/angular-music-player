@@ -15,6 +15,8 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
   page = 1;
   perPage = 20;
 
+  isEmpty = false;
+
   songSubs: Subscription | null = null;
   songs: LikedSong[] = [];
   totalSongs = 0;
@@ -30,7 +32,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
     this.store
       .select((store) => store.songs.likedSongs)
       .subscribe((data) => {
-        if (!data.data.length) {
+        if (!data.data.length && !this.isEmpty) {
           this.getLikedSongs(this.page);
         }
         this.totalSongs = data.total;
@@ -57,6 +59,11 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
       .getLikedSongs(`&offset=${offset}&limit=${this.perPage}`)
       .subscribe((data) => {
         const response = data as LikedSongsResponse;
+
+        if (response.items.length === 0) {
+          this.isEmpty = true;
+        }
+
         const _songs = [...this.songs, ...response.items];
         const reducedSongs = _songs.reduce((prev: LikedSong[], curr) => {
           const isExist = prev.some((p) => p.track.id === curr.track.id);
