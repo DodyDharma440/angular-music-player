@@ -6,8 +6,8 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
-import { spotifyConfig } from '../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -19,11 +19,11 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (!req.url.includes('http')) {
       req = req.clone({
-        url: `${spotifyConfig.baseUrl}${req.url}`,
+        url: `${environment.spotifyConfig.baseUrl}${req.url}`,
       });
     }
 
-    const isApiUrl = req.url.startsWith(spotifyConfig.baseUrl);
+    const isApiUrl = req.url.startsWith(environment.spotifyConfig.baseUrl);
     if (this.authService.isAuthenticated() && isApiUrl) {
       req = req.clone({
         setHeaders: {

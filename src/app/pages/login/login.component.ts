@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { spotifyConfig } from 'src/app/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   onLogin() {
     const urlParams = new URLSearchParams();
     urlParams.append('response_type', 'code');
-    urlParams.append('client_id', spotifyConfig.clientId);
-    urlParams.append('scope', spotifyConfig.scope.join(' '));
-    urlParams.append('redirect_uri', spotifyConfig.redirectUrl);
-    urlParams.append('state', spotifyConfig.state);
+    urlParams.append('client_id', environment.spotifyConfig.clientId);
+    urlParams.append('scope', environment.spotifyConfig.scope.join(' '));
+    urlParams.append('redirect_uri', environment.spotifyConfig.redirectUrl);
+    urlParams.append('state', environment.spotifyConfig.state);
 
     window.location.href = `${
-      spotifyConfig.authEndpoint
+      environment.spotifyConfig.authEndpoint
     }?${urlParams.toString()}`;
   }
 }

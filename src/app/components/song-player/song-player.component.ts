@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, range } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { RepeatMode, Song, SongState } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
@@ -56,7 +56,6 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private store: Store<State>, private songService: SongService) {}
 
   ngOnInit() {
-    this.songService.updateSongPlayer({ isPlaying: false });
     this.songStateSubs = this.songState$.subscribe(
       ({ playlists, song, player }) => {
         this.playlists = playlists;
@@ -84,10 +83,12 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const isPlayingChanges = changes['isPlaying'];
     if (isPlayingChanges) {
-      if (isPlayingChanges.previousValue) {
-        this.audioRef?.nativeElement.pause();
-      } else {
-        this.audioRef?.nativeElement.play();
+      if (typeof isPlayingChanges.previousValue === 'boolean') {
+        if (isPlayingChanges.previousValue) {
+          this.audioRef?.nativeElement.pause();
+        } else {
+          this.audioRef?.nativeElement.play();
+        }
       }
     }
   }
@@ -97,8 +98,9 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngAfterViewInit() {
-    const audio = this.audioRef?.nativeElement;
+    this.songService.updateSongPlayer({ isPlaying: false });
 
+    const audio = this.audioRef?.nativeElement;
     audio?.addEventListener('ended', (e) => {
       if (this.repeatMode === 'song') {
         (e.target as HTMLAudioElement).play();

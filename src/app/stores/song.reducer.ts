@@ -18,7 +18,7 @@ const initialState: SongState = {
     playlists: [],
     song: null,
     player: {
-      isPlaying: true,
+      isPlaying: false,
       isShuffle: false,
       isMuted: false,
       repeatMode: 'none',
