@@ -36,6 +36,15 @@ export interface LikedSongsResponse {
   total: number;
 }
 
+export interface SongPlayer {
+  isPlaying: boolean;
+  isShuffle: boolean;
+  isMuted: boolean;
+  repeatMode: 'playlist' | 'song' | 'none';
+  volume: number;
+  currentTime: number;
+}
+
 export interface SongState {
   likedSongs: {
     data: LikedSong[];
@@ -45,13 +54,6 @@ export interface SongState {
   playedSong: {
     playlists: Song[];
     song: Song | null;
-    player: {
-      isPlaying: boolean;
-      isShuffle: boolean;
-      isMuted: boolean;
-      repeatMode: 'playlist' | 'song' | 'none';
-      volume: number;
-      currentTime: number;
-    };
+    player: SongPlayer;
   };
 }

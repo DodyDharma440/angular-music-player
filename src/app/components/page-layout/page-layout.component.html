@@ -6,6 +6,6 @@
   ></nav>
   <div [ngClass]="{ 'ml-[280px] px-8 py-6 mb-[68px]': isCanRender() }">
     <ng-content></ng-content>
-    <song-player *ngIf="isCanRender()"></song-player>
+    <song-player *ngIf="isCanRender()" [isPlaying]="isPlaying"></song-player>
   </div>
 </ng-container>

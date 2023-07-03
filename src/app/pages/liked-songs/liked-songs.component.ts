@@ -4,9 +4,7 @@ import { Subscription } from 'rxjs';
 import { GetLikedSongsAction } from 'src/app/actions/songs.action';
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
-import { SongService } from 'src/app/services/song.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
-import { msToMinutes } from 'src/app/utils/time';
 
 @Component({
   selector: 'app-liked-songs',
@@ -19,15 +17,15 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
   isEmpty = false;
 
   songSubs: Subscription | null = null;
-  songs: LikedSong[] = [];
+  likedSongs: LikedSong[] = [];
+  songs: Song[] = [];
   totalSongs = 0;
 
   selectedSong: Song | null = null;
 
   constructor(
     private spotifyService: SpotifyService,
-    private store: Store<State>,
-    private songService: SongService
+    private store: Store<State>
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +36,8 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
           this.getLikedSongs(this.page);
         }
         this.totalSongs = data.total;
-        this.songs = data.data;
+        this.likedSongs = data.data;
+        this.songs = data.data.map((d) => d.track);
         this.page = data.nextPage ? data.nextPage - 1 : 1;
       });
   }
@@ -66,7 +65,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
           this.isEmpty = true;
         }
 
-        const _songs = [...this.songs, ...response.items];
+        const _songs = [...this.likedSongs, ...response.items];
         const reducedSongs = _songs.reduce((prev: LikedSong[], curr) => {
           const isExist = prev.some((p) => p.track.id === curr.track.id);
           if (!isExist) {
@@ -89,26 +88,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getArtistNames(song: Song) {
-    return song.artists.map((artist) => artist.name).join(', ');
-  }
-
-  getDuration(value: number) {
-    return msToMinutes(value);
-  }
-
-  isDisabled(song: Song) {
-    return !song.preview_url;
-  }
-
   isCanNextPage() {
     return this.totalSongs > this.songs.length;
-  }
-
-  onPlaySong(song: Song) {
-    this.songService.playSong(
-      song,
-      this.songs.map((s) => s.track)
-    );
   }
 }

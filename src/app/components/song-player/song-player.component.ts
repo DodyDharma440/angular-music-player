@@ -1,8 +1,11 @@
 import {
   Component,
   ElementRef,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -16,7 +19,9 @@ import { msToMinutes } from 'src/app/utils/time';
   selector: 'song-player',
   templateUrl: './song-player.component.html',
 })
-export class SongPlayerComponent implements OnInit, OnDestroy {
+export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isPlaying: boolean = false;
+
   @ViewChild('musicPlayer') audioRef: ElementRef<HTMLAudioElement> | null =
     null;
 
@@ -42,7 +47,6 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
   song: Song | null = null;
   playlists: Song[] = [];
 
-  isPlaying = true;
   isMuted = false;
   volume = 100;
   currentTime = 0;
@@ -71,6 +75,17 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const isPlayingChanges = changes['isPlaying'];
+    if (isPlayingChanges) {
+      if (isPlayingChanges.previousValue) {
+        this.audioRef?.nativeElement.pause();
+      } else {
+        this.audioRef?.nativeElement.play();
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -133,16 +148,9 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
   }
 
   onTogglePlay() {
-    this.songService.updateSongPlayer(({ player }) => {
-      if (!player.isPlaying) {
-        this.audioRef?.nativeElement.play();
-      } else {
-        this.audioRef?.nativeElement.pause();
-      }
-      return {
-        isPlaying: !player.isPlaying,
-      };
-    });
+    this.songService.updateSongPlayer(({ player }) => ({
+      isPlaying: !player.isPlaying,
+    }));
   }
 
   onPlayNext() {

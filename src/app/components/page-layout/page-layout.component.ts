@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PageLayoutComponent {
   menus = menuItems;
+  isPlaying = false;
 
   constructor(
     private router: Router,
@@ -27,6 +28,11 @@ export class PageLayoutComponent {
       this.userService.getUserData().subscribe((data) => {
         this.store.dispatch(GetUserDataAction({ payload: data as User }));
       });
+      this.store
+        .select((store) => store.songs.playedSong.player)
+        .subscribe((data) => {
+          this.isPlaying = data.isPlaying;
+        });
     }
   }
 
