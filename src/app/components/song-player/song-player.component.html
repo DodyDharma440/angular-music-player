@@ -3,15 +3,26 @@
     <!-- <div
       class="{{ 'bg-orange-500 absolute left-0 h-full top-0' + 'w-[' + '{{getDurationPercentage()}}'+ '%]' }}"
     ></div> -->
-    <input
-      type="range"
-      class="bg-transparent absolute left-0 h-full top-0 transparent w-full cursor-pointer appearance-none rounded-lg border-transparent"
-      min="0"
-      max="30"
-      [defaultValue]="0"
-      #rangeInput
-      (input)="onChangeRange(rangeInput)"
-    />
+    <div class="relative h-full w-full flex">
+      <input
+        type="range"
+        class="bg-gray-300 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
+        min="0"
+        max="30"
+        [defaultValue]="0"
+        #rangeInput
+        step="0.0001"
+        (input)="onChangeRange(rangeInput)"
+      />
+      <div
+        class="absolute w-2 h-2 cursor-pointer bg-orange-500 rounded-md top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+        #sliderThumb
+      ></div>
+      <div
+        class="absolute h-full top-1/2 bg-orange-500 -translate-y-1/2 left-0 pointer-events-none"
+        #sliderProgress
+      ></div>
+    </div>
     <span class="absolute right-0 -bottom-5 text-xs pr-2"
       >{{ getCurrentTime() }} / {{ getDuration() }}</span
     >
@@ -81,18 +92,21 @@
           <div
             class="h-2 rounded-full w-[100px] bg-gray-300 relative overflow-hidden"
           >
-            <input
-              type="range"
-              class="bg-transparent absolute inset-0 w-full cursor-pointer appearance-none rounded-lg border-transparent"
-              min="0"
-              max="1"
-              step="0.01"
-              #volumeInput
-              (input)="onChangeVolume(volumeInput)"
-            />
-            <!-- <div
-              class="absolute  w-[75%] bg-orange-500"
-            ></div> -->
+            <div class="relative h-full w-full flex">
+              <input
+                type="range"
+                class="bg-gray-300 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
+                min="0"
+                max="1"
+                step="0.01"
+                #volumeInput
+                (input)="onChangeVolume(volumeInput)"
+              />
+              <div
+                class="absolute h-full top-1/2 bg-orange-500 -translate-y-1/2 left-0 pointer-events-none"
+                #volumeProgress
+              ></div>
+            </div>
           </div>
         </div>
       </div>
