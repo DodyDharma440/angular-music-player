@@ -51,6 +51,7 @@ export interface SongState {
       isMuted: boolean;
       repeatMode: 'playlist' | 'song' | 'none';
       volume: number;
+      currentTime: number;
     };
   };
 }

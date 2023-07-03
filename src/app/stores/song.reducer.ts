@@ -6,6 +6,7 @@ import {
   UpdatePlayerSongAction,
   // TogglePlaySongAction,
 } from '../actions/songs.action';
+import { hydrationMetaReducer } from './hydration.reducer';
 
 const initialState: SongState = {
   likedSongs: {
@@ -22,6 +23,7 @@ const initialState: SongState = {
       isMuted: false,
       repeatMode: 'none',
       volume: 100,
+      currentTime: 0,
     },
   },
 };
@@ -66,5 +68,9 @@ export const songsReducer = (
       };
     })
   );
-  return reducer(state, action);
+  const hydratedReducer = hydrationMetaReducer<SongState>(
+    reducer,
+    'song-player'
+  );
+  return hydratedReducer(state, action);
 };

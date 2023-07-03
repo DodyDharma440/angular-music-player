@@ -39,27 +39,29 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
     (store) => store.songs.playedSong
   );
 
-  currentTime = 0;
-
   song: Song | null = null;
   playlists: Song[] = [];
 
   isPlaying = true;
   isMuted = false;
   volume = 100;
+  currentTime = 0;
 
   constructor(private store: Store<State>, private songService: SongService) {}
 
   ngOnInit() {
+    this.songService.updateSongPlayer({ isPlaying: false });
     this.songStateSubs = this.songState$.subscribe(
       ({ playlists, song, player }) => {
         this.playlists = playlists;
         this.song = song;
 
-        const { volume, isPlaying, isMuted } = player;
+        const { volume, isMuted, isPlaying, currentTime } = player;
+
         this.volume = volume;
         this.isPlaying = isPlaying;
         this.isMuted = isMuted;
+        this.currentTime = currentTime;
 
         if (
           !song?.preview_url &&
@@ -88,19 +90,20 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
     audio?.addEventListener('timeupdate', (e) => {
       const rangeValue = (e.target as HTMLAudioElement).currentTime.toString();
       const timeValue = Number(rangeValue.split('.')[0]);
-      this.currentTime = timeValue * 1000;
+      this.songService.updateSongPlayer({ currentTime: timeValue * 1000 });
       this.rangeInput!.nativeElement.value = rangeValue;
       this.onUpdateProgressUi(rangeValue);
     });
     audio?.addEventListener('volume', (e) => {
       const volume = (e.target as HTMLAudioElement).volume;
-      this.songService.updateSongPlayer(() => {
-        this.volumeInput!.nativeElement.value = volume.toString();
-        return { volume };
-      });
+      this.volumeInput!.nativeElement.value = volume.toString();
+      this.songService.updateSongPlayer({ volume: volume * 100 });
     });
 
+    this.audioRef!.nativeElement.muted = this.isMuted;
     this.onUpdateVolumeUi((this.volume / 100).toString());
+    this.onUpdateProgressUi(this.currentTime.toString());
+    this.audioRef!.nativeElement.currentTime = Number(this.currentTime) / 1000;
   }
 
   onUpdateProgressUi(value: string) {
@@ -112,16 +115,21 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
   onUpdateVolumeUi(value: string) {
     const width = `${(Number(value) / 100) * 100 * 100}%`;
     this.volumeProgress!.nativeElement.style.width = width;
+    this.audioRef!.nativeElement.volume = Number(value);
   }
 
   onChangeRange(rangeInput: HTMLInputElement) {
     this.audioRef!.nativeElement.currentTime = Number(rangeInput.value);
     this.onUpdateProgressUi(rangeInput.value);
+    const timeValue = Number(rangeInput.value.split('.')[0]);
+    this.songService.updateSongPlayer({ currentTime: timeValue * 1000 });
   }
 
   onChangeVolume(volumeInput: HTMLInputElement) {
-    this.audioRef!.nativeElement.volume = Number(volumeInput.value);
     this.onUpdateVolumeUi(volumeInput.value);
+    this.songService.updateSongPlayer({
+      volume: Math.round(Number(volumeInput.value) * 100),
+    });
   }
 
   onTogglePlay() {
@@ -167,9 +175,5 @@ export class SongPlayerComponent implements OnInit, OnDestroy {
 
   getCurrentTime() {
     return msToMinutes(this.currentTime);
-  }
-
-  getDurationPercentage() {
-    return Math.round((100 * this.currentTime) / 30);
   }
 }
