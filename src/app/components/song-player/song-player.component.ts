@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, range } from 'rxjs';
-import { Song, SongState } from 'src/app/models/song.model';
+import { RepeatMode, Song, SongState } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
 import { msToMinutes } from 'src/app/utils/time';
@@ -51,6 +51,7 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   isShuffle = false;
   volume = 100;
   currentTime = 0;
+  repeatMode: RepeatMode = 'none';
 
   constructor(private store: Store<State>, private songService: SongService) {}
 
@@ -61,20 +62,21 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
         this.playlists = playlists;
         this.song = song;
 
-        const { volume, isMuted, isPlaying, currentTime, isShuffle } = player;
+        const {
+          volume,
+          isMuted,
+          isPlaying,
+          currentTime,
+          isShuffle,
+          repeatMode,
+        } = player;
 
         this.volume = volume;
         this.isPlaying = isPlaying;
         this.isMuted = isMuted;
         this.currentTime = currentTime;
         this.isShuffle = isShuffle;
-
-        // if (
-        //   !song?.preview_url &&
-        //   this.songService.checkCanNextSong(song!, playlists)
-        // ) {
-        //   this.onPlayNext();
-        // }
+        this.repeatMode = repeatMode;
       }
     );
   }
@@ -97,7 +99,13 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   ngAfterViewInit() {
     const audio = this.audioRef?.nativeElement;
 
-    audio?.addEventListener('ended', () => this.onPlayNext());
+    audio?.addEventListener('ended', (e) => {
+      if (this.repeatMode === 'song') {
+        (e.target as HTMLAudioElement).play();
+      } else {
+        this.onPlayNext();
+      }
+    });
     audio?.addEventListener('pause', () =>
       this.songService.updateSongPlayer({ isPlaying: false })
     );
@@ -157,17 +165,46 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
 
   onPlayNext() {
     if (this.song)
-      this.songService.playNextSong(this.song, this.playlists, this.isShuffle);
+      this.songService.playNextSong(
+        this.song,
+        this.playlists,
+        this.isShuffle,
+        this.repeatMode === 'playlist'
+      );
   }
 
   onPlayPrev() {
     if (this.song)
-      this.songService.playPrevSong(this.song, this.playlists, this.isShuffle);
+      this.songService.playPrevSong(
+        this.song,
+        this.playlists,
+        this.isShuffle,
+        this.repeatMode === 'playlist'
+      );
   }
 
   onToggleShuffle() {
     this.isShuffle = !this.isShuffle;
     this.songService.updateSongPlayer({ isShuffle: this.isShuffle });
+  }
+
+  onToggleRepeat() {
+    switch (this.repeatMode) {
+      case 'none':
+        this.repeatMode = 'playlist';
+        this.songService.updateSongPlayer({ repeatMode: 'playlist' });
+        break;
+
+      case 'playlist':
+        this.repeatMode = 'song';
+        this.songService.updateSongPlayer({ repeatMode: 'song' });
+        break;
+
+      default:
+        this.repeatMode = 'none';
+        this.songService.updateSongPlayer({ repeatMode: 'none' });
+        break;
+    }
   }
 
   onToggleMute() {

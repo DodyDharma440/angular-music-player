@@ -47,7 +47,8 @@ export class SongService {
     song: Song,
     playlists: Song[],
     songIndex: number,
-    type: 'increment' | 'decrement'
+    type: 'increment' | 'decrement',
+    isRepeatPlaylist: boolean
   ) {
     const handlePlay = (song: Song, playlists: Song[], index: number) => {
       const isCanSkip =
@@ -55,35 +56,48 @@ export class SongService {
           ? this.checkCanNextSong(song, playlists)
           : this.checkCanPrevSong(song, playlists);
 
-      if (isCanSkip) {
-        const newSong = playlists[index];
-        if (this.checkCanPlayed(newSong)) {
-          this.setPlayedSong(newSong, playlists);
-        } else {
-          const nextIndex = type === 'increment' ? index + 1 : index - 1;
-          handlePlay(song, playlists, nextIndex);
-        }
+      let _index = index;
+      if (!isCanSkip && isRepeatPlaylist) {
+        _index = 0;
+      }
+
+      const newSong = playlists[_index];
+      if (this.checkCanPlayed(newSong)) {
+        this.setPlayedSong(newSong, playlists);
+      } else {
+        const nextIndex = type === 'increment' ? index + 1 : index - 1;
+        handlePlay(song, playlists, nextIndex);
       }
     };
     const index = type === 'increment' ? songIndex + 1 : songIndex - 1;
     handlePlay(song, playlists, index);
   }
 
-  playNextSong(song: Song, playlists: Song[], isShuffle: boolean = false) {
+  playNextSong(
+    song: Song,
+    playlists: Song[],
+    isShuffle: boolean = false,
+    isRepeatPlaylist: boolean
+  ) {
     const songIndex = this.getSongIndex(song, playlists);
     if (isShuffle) {
       this.onShuffle(playlists, songIndex);
     } else {
-      this.onPlay(song, playlists, songIndex, 'increment');
+      this.onPlay(song, playlists, songIndex, 'increment', isRepeatPlaylist);
     }
   }
 
-  playPrevSong(song: Song, playlists: Song[], isShuffle: boolean = false) {
+  playPrevSong(
+    song: Song,
+    playlists: Song[],
+    isShuffle: boolean = false,
+    isRepeatPlaylist: boolean
+  ) {
     const songIndex = this.getSongIndex(song, playlists);
     if (isShuffle) {
       this.onShuffle(playlists, songIndex);
     } else {
-      this.onPlay(song, playlists, songIndex, 'decrement');
+      this.onPlay(song, playlists, songIndex, 'decrement', isRepeatPlaylist);
     }
   }
 

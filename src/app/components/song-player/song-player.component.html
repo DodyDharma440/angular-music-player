@@ -73,8 +73,18 @@
           <i class="fa-solid fa-forward-step text-2xl"></i>
         </button>
 
-        <button class="ml-4">
-          <i class="fa-solid fa-repeat text-sm"></i>
+        <button class="ml-4 relative" (click)="onToggleRepeat()">
+          <i
+            class="fa-solid fa-repeat text-sm"
+            [ngClass]="{
+              'text-orange-500': repeatMode !== 'none',
+            }"
+          ></i>
+          <span
+            *ngIf="repeatMode === 'song'"
+            class="absolute inset-0 flex items-center justify-center text-[6px] text-orange-500"
+            >1</span
+          >
         </button>
       </div>
       <div class="flex w-[30%] justify-end gap-4">

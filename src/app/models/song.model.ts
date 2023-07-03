@@ -36,6 +36,8 @@ export interface LikedSongsResponse {
   total: number;
 }
 
+export type RepeatMode = 'playlist' | 'song' | 'none';
+
 export interface SongPlayer {
   isPlaying: boolean;
   isShuffle: boolean;
