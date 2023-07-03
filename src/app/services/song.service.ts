@@ -31,20 +31,64 @@ export class SongService {
     );
   }
 
-  playNextSong(song: Song, playlists: Song[]) {
-    const isCanNext = this.checkCanNextSong(song, playlists);
+  getRandom(lists: Song[]) {
+    const randomIndex = Math.floor(Math.random() * lists.length);
+    return lists[randomIndex];
+  }
+
+  onShuffle(playlists: Song[], songIndex: number) {
+    const lists = playlists.filter(
+      (song, index) => song.preview_url && index !== songIndex
+    );
+    this.setPlayedSong(this.getRandom(lists), playlists);
+  }
+
+  onPlay(
+    song: Song,
+    playlists: Song[],
+    songIndex: number,
+    type: 'increment' | 'decrement'
+  ) {
+    const handlePlay = (song: Song, playlists: Song[], index: number) => {
+      const isCanSkip =
+        type === 'increment'
+          ? this.checkCanNextSong(song, playlists)
+          : this.checkCanPrevSong(song, playlists);
+
+      if (isCanSkip) {
+        const newSong = playlists[index];
+        if (this.checkCanPlayed(newSong)) {
+          this.setPlayedSong(newSong, playlists);
+        } else {
+          const nextIndex = type === 'increment' ? index + 1 : index - 1;
+          handlePlay(song, playlists, nextIndex);
+        }
+      }
+    };
+    const index = type === 'increment' ? songIndex + 1 : songIndex - 1;
+    handlePlay(song, playlists, index);
+  }
+
+  playNextSong(song: Song, playlists: Song[], isShuffle: boolean = false) {
     const songIndex = this.getSongIndex(song, playlists);
-    if (isCanNext) {
-      this.setPlayedSong(playlists[songIndex + 1], playlists);
+    if (isShuffle) {
+      this.onShuffle(playlists, songIndex);
+    } else {
+      this.onPlay(song, playlists, songIndex, 'increment');
     }
   }
 
-  playPrevSong(song: Song, playlists: Song[]) {
-    const isCanPrev = this.checkCanPrevSong(song, playlists);
+  playPrevSong(song: Song, playlists: Song[], isShuffle: boolean = false) {
     const songIndex = this.getSongIndex(song, playlists);
-    if (isCanPrev) {
-      this.setPlayedSong(playlists[songIndex - 1], playlists);
+    if (isShuffle) {
+      this.onShuffle(playlists, songIndex);
+    } else {
+      this.onPlay(song, playlists, songIndex, 'decrement');
     }
+  }
+
+  checkCanPlayed(song: Song) {
+    return Boolean(song.preview_url);
   }
 
   checkCanNextSong(song: Song, playlists: Song[]) {

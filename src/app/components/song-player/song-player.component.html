@@ -47,8 +47,11 @@
         <span class="text-xs text-gray-500">{{ getNames() }}</span>
       </div>
       <div class="flex items-center gap-4 justify-center flex-1 text-gray-400">
-        <button class="mr-4">
-          <i class="fa-solid fa-shuffle text-sm"></i>
+        <button class="mr-4" (click)="onToggleShuffle()">
+          <i
+            class="fa-solid fa-shuffle text-sm"
+            [ngClass]="{ 'text-orange-500': isShuffle }"
+          ></i>
         </button>
 
         <button (click)="onPlayPrev()">

@@ -48,6 +48,7 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   playlists: Song[] = [];
 
   isMuted = false;
+  isShuffle = false;
   volume = 100;
   currentTime = 0;
 
@@ -60,19 +61,20 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
         this.playlists = playlists;
         this.song = song;
 
-        const { volume, isMuted, isPlaying, currentTime } = player;
+        const { volume, isMuted, isPlaying, currentTime, isShuffle } = player;
 
         this.volume = volume;
         this.isPlaying = isPlaying;
         this.isMuted = isMuted;
         this.currentTime = currentTime;
+        this.isShuffle = isShuffle;
 
-        if (
-          !song?.preview_url &&
-          this.songService.checkCanNextSong(song!, playlists)
-        ) {
-          this.onPlayNext();
-        }
+        // if (
+        //   !song?.preview_url &&
+        //   this.songService.checkCanNextSong(song!, playlists)
+        // ) {
+        //   this.onPlayNext();
+        // }
       }
     );
   }
@@ -154,11 +156,18 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onPlayNext() {
-    if (this.song) this.songService.playNextSong(this.song, this.playlists);
+    if (this.song)
+      this.songService.playNextSong(this.song, this.playlists, this.isShuffle);
   }
 
   onPlayPrev() {
-    if (this.song) this.songService.playPrevSong(this.song, this.playlists);
+    if (this.song)
+      this.songService.playPrevSong(this.song, this.playlists, this.isShuffle);
+  }
+
+  onToggleShuffle() {
+    this.isShuffle = !this.isShuffle;
+    this.songService.updateSongPlayer({ isShuffle: this.isShuffle });
   }
 
   onToggleMute() {
