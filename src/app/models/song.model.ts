@@ -45,10 +45,12 @@ export interface SongState {
   playedSong: {
     playlists: Song[];
     song: Song | null;
-    // isShuffle: boolean;
-    // repeatMode: 'playlist' | 'song' | 'none';
-    // volume: number;
-    // isPlaying: boolean;
-    // isMuted: boolean;
+    player: {
+      isPlaying: boolean;
+      isShuffle: boolean;
+      isMuted: boolean;
+      repeatMode: 'playlist' | 'song' | 'none';
+      volume: number;
+    };
   };
 }

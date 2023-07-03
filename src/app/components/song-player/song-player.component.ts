@@ -1,6 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, range } from 'rxjs';
+import { Observable, Subscription, range } from 'rxjs';
 import { Song, SongState } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
@@ -10,7 +16,7 @@ import { msToMinutes } from 'src/app/utils/time';
   selector: 'song-player',
   templateUrl: './song-player.component.html',
 })
-export class SongPlayerComponent implements OnInit {
+export class SongPlayerComponent implements OnInit, OnDestroy {
   @ViewChild('musicPlayer') audioRef: ElementRef<HTMLAudioElement> | null =
     null;
 
@@ -28,39 +34,57 @@ export class SongPlayerComponent implements OnInit {
   @ViewChild('volumeProgress')
   volumeProgress: ElementRef<HTMLDivElement> | null = null;
 
+  songStateSubs: Subscription | null = null;
   songState$: Observable<SongState['playedSong']> = this.store.select(
     (store) => store.songs.playedSong
   );
 
+  currentTime = 0;
+
   song: Song | null = null;
   playlists: Song[] = [];
-  currentTime = 0;
-  volume = 100;
+
   isPlaying = true;
   isMuted = false;
+  volume = 100;
 
   constructor(private store: Store<State>, private songService: SongService) {}
 
   ngOnInit() {
-    this.songState$.subscribe((songState) => {
-      this.playlists = songState.playlists;
-      this.song = songState.song;
+    this.songStateSubs = this.songState$.subscribe(
+      ({ playlists, song, player }) => {
+        this.playlists = playlists;
+        this.song = song;
 
-      if (
-        !songState.song?.preview_url &&
-        this.songService.checkCanNextSong(songState.song!, songState.playlists)
-      ) {
-        this.onPlayNext();
+        const { volume, isPlaying, isMuted } = player;
+        this.volume = volume;
+        this.isPlaying = isPlaying;
+        this.isMuted = isMuted;
+
+        if (
+          !song?.preview_url &&
+          this.songService.checkCanNextSong(song!, playlists)
+        ) {
+          this.onPlayNext();
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.songStateSubs?.unsubscribe();
   }
 
   ngAfterViewInit() {
     const audio = this.audioRef?.nativeElement;
 
     audio?.addEventListener('ended', () => this.onPlayNext());
-    audio?.addEventListener('pause', () => (this.isPlaying = false));
-    audio?.addEventListener('play', () => (this.isPlaying = true));
+    audio?.addEventListener('pause', () =>
+      this.songService.updateSongPlayer({ isPlaying: false })
+    );
+    audio?.addEventListener('play', () =>
+      this.songService.updateSongPlayer({ isPlaying: true })
+    );
     audio?.addEventListener('timeupdate', (e) => {
       const rangeValue = (e.target as HTMLAudioElement).currentTime.toString();
       const timeValue = Number(rangeValue.split('.')[0]);
@@ -70,8 +94,10 @@ export class SongPlayerComponent implements OnInit {
     });
     audio?.addEventListener('volume', (e) => {
       const volume = (e.target as HTMLAudioElement).volume;
-      this.volume = volume;
-      this.volumeInput!.nativeElement.value = volume.toString();
+      this.songService.updateSongPlayer(() => {
+        this.volumeInput!.nativeElement.value = volume.toString();
+        return { volume };
+      });
     });
 
     this.onUpdateVolumeUi((this.volume / 100).toString());
@@ -99,12 +125,16 @@ export class SongPlayerComponent implements OnInit {
   }
 
   onTogglePlay() {
-    if (!this.isPlaying) {
-      this.audioRef?.nativeElement.play();
-    } else {
-      this.audioRef?.nativeElement.pause();
-    }
-    this.isPlaying = Boolean(!this.isPlaying);
+    this.songService.updateSongPlayer(({ player }) => {
+      if (!player.isPlaying) {
+        this.audioRef?.nativeElement.play();
+      } else {
+        this.audioRef?.nativeElement.pause();
+      }
+      return {
+        isPlaying: !player.isPlaying,
+      };
+    });
   }
 
   onPlayNext() {
@@ -116,8 +146,12 @@ export class SongPlayerComponent implements OnInit {
   }
 
   onToggleMute() {
-    this.isMuted = !this.isMuted;
-    this.audioRef!.nativeElement.muted = this.isMuted;
+    this.songService.updateSongPlayer(({ player }) => {
+      this.audioRef!.nativeElement.muted = !player.isMuted;
+      return {
+        isMuted: !player.isMuted,
+      };
+    });
   }
 
   getNames() {

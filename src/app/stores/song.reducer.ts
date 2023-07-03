@@ -3,6 +3,7 @@ import { SongState } from '../models/song.model';
 import {
   GetLikedSongsAction,
   SetPlayedSongAction,
+  UpdatePlayerSongAction,
   // TogglePlaySongAction,
 } from '../actions/songs.action';
 
@@ -15,11 +16,13 @@ const initialState: SongState = {
   playedSong: {
     playlists: [],
     song: null,
-    // isShuffle: false,
-    // repeatMode: 'none',
-    // volume: 1,
-    // isPlaying: true,
-    // isMuted: false,
+    player: {
+      isPlaying: true,
+      isShuffle: false,
+      isMuted: false,
+      repeatMode: 'none',
+      volume: 100,
+    },
   },
 };
 
@@ -44,16 +47,24 @@ export const songsReducer = (
           ...action.payload,
         },
       };
+    }),
+    on(UpdatePlayerSongAction, (state, action) => {
+      const _payload =
+        action.payload instanceof Function
+          ? action.payload(state.playedSong)
+          : action.payload;
+
+      return {
+        ...state,
+        playedSong: {
+          ...state.playedSong,
+          player: {
+            ...state.playedSong.player,
+            ..._payload,
+          },
+        },
+      };
     })
-    // on(TogglePlaySongAction, (state, action) => {
-    //   return {
-    //     ...state,
-    //     playedSong: {
-    //       ...state.playedSong,
-    //       ...action.payload(state.playedSong),
-    //     },
-    //   };
-    // })
   );
   return reducer(state, action);
 };

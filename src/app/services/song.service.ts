@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../models/state.model';
 import { Song } from '../models/song.model';
-import { SetPlayedSongAction } from '../actions/songs.action';
+import {
+  SetPlayedSongAction,
+  UpdatePlayerPayload,
+  UpdatePlayerSongAction,
+} from '../actions/songs.action';
 
 @Injectable({
   providedIn: 'root',
@@ -60,30 +64,7 @@ export class SongService {
     );
   }
 
-  // togglePlaySong(callback?: (state: boolean) => void) {
-  //   this.store.dispatch(
-  //     TogglePlaySongAction({
-  //       payload: (state) => {
-  //         callback?.(!state.isPlaying);
-  //         return { isPlaying: !state.isPlaying };
-  //       },
-  //     })
-  //   );
-  // }
-
-  // onPlaySong() {
-  //   this.store.dispatch(
-  //     TogglePlaySongAction({
-  //       payload: (state) => ({ isPlaying: true }),
-  //     })
-  //   );
-  // }
-
-  // onPauseSong() {
-  //   this.store.dispatch(
-  //     TogglePlaySongAction({
-  //       payload: (state) => ({ isPlaying: false }),
-  //     })
-  //   );
-  // }
+  updateSongPlayer(payload: UpdatePlayerPayload) {
+    this.store.dispatch(UpdatePlayerSongAction({ payload }));
+  }
 }
