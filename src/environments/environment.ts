@@ -7,7 +7,7 @@ export const environment = {
     clientSecret: 'e64dc5711a294103a59819b7e3976754',
     baseUrl: 'https://api.spotify.com/v1',
     authEndpoint: 'https://accounts.spotify.com/authorize',
-    redirectUrl: 'https://angular-music-player-pi/spotify/callback',
+    redirectUrl: 'https://angular-music-player-pi.vercel.app/spotify/callback',
     scope: [
       'user-read-currently-playing',
       'user-read-recently-played',
