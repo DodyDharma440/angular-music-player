@@ -1,7 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { GetLikedSongsAction } from 'src/app/actions/liked-songs.action';
+import { IntersectionObserverHelper } from 'src/app/helpers/intersection.observer';
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
 import { SpotifyService } from 'src/app/services/spotify.service';
@@ -10,7 +17,15 @@ import { SpotifyService } from 'src/app/services/spotify.service';
   selector: 'app-liked-songs',
   templateUrl: './liked-songs.component.html',
 })
-export class LikedSongsComponent implements OnInit, OnDestroy {
+export class LikedSongsComponent
+  extends IntersectionObserverHelper
+  implements OnInit, OnDestroy
+{
+  @ViewChild('fetchMore') fetchMore: ElementRef<HTMLParagraphElement> | null =
+    null;
+
+  isCreateObserve = false;
+
   page = 1;
   perPage = 20;
 
@@ -26,7 +41,9 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
   constructor(
     private spotifyService: SpotifyService,
     private store: Store<State>
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.store
@@ -85,6 +102,15 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
           })
         );
         this.page = page;
+
+        if (!this.isCreateObserve && this.isCanNextPage()) {
+          this.createAndObserve(this.fetchMore!).subscribe((isIntersecting) => {
+            if (isIntersecting) {
+              this.onLoadMore();
+            }
+          });
+          this.isCreateObserve = true;
+        }
       });
   }
 

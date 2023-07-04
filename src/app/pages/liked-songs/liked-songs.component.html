@@ -12,10 +12,12 @@
         [index]="i"
       ></song-list>
 
-      <div class="flex items-center justify-center" *ngIf="isCanNextPage()">
+      <div class="flex items-center justify-center">
         <p
           class="text-sm my-4 text-gray-500 cursor-pointer"
           (click)="onLoadMore()"
+          [ngClass]="{ hidden: !isCanNextPage() }"
+          #fetchMore
         >
           Load More
         </p>
