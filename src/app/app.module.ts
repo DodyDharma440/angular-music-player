@@ -24,6 +24,7 @@ import { ContentComponent } from './components/content/content.component';
 import { songsReducer } from './stores/song.reducer';
 import { SongPlayerComponent } from './components/song-player/song-player.component';
 import { SongListComponent } from './components/song-list/song-list.component';
+import { clearState } from './utils/store';
 
 @NgModule({
   declarations: [
@@ -48,10 +49,13 @@ import { SongListComponent } from './components/song-list/song-list.component';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({
-      user: userReducer,
-      songs: songsReducer,
-    }),
+    StoreModule.forRoot(
+      {
+        user: userReducer,
+        songs: songsReducer,
+      },
+      { metaReducers: [clearState] }
+    ),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

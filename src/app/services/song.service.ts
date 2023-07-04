@@ -58,7 +58,11 @@ export class SongService {
 
       let _index = index;
       if (!isCanSkip && isRepeatPlaylist) {
-        _index = 0;
+        if (type === 'increment') {
+          _index = 0;
+        } else if (type === 'decrement') {
+          _index = playlists.length - 1;
+        }
       }
 
       const newSong = playlists[_index];

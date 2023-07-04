@@ -4,7 +4,7 @@ import { HttpClient, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { State } from '../models/state.model';
-import { GetUserDataAction } from '../actions/user.action';
+import { ClearStateAction, GetUserDataAction } from '../actions/user.action';
 import { serialize } from '../utils/request';
 import { SpotifyCallbackResponse } from '../models/auth.model';
 import { UserService } from './user.service';
@@ -93,10 +93,9 @@ export class AuthService {
       'width=700,height=500,top=40,left=40'
     );
     setTimeout(() => {
-      this.store.dispatch(GetUserDataAction({ payload: null }));
+      this.store.dispatch(ClearStateAction());
       spotifyLogoutWindow?.close();
-      localStorage.removeItem('access_token');
       this.router.navigate(['/login']);
-    }, 1000);
+    }, 500);
   }
 }
