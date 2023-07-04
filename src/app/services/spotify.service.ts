@@ -16,4 +16,16 @@ export class SpotifyService {
   getLikedSongs(params?: string) {
     return this.http.get(`/me/tracks?${params || ''}`);
   }
+
+  getUserPlaylists(params?: string) {
+    return this.http.get(`/me/playlists?${params || ''}`);
+  }
+
+  getFeaturedPlaylists(params?: string) {
+    return this.http.get(`/browse/featured-playlists?${params || ''}`);
+  }
+
+  getCategoryPlaylists(id: string, params?: string) {
+    return this.http.get(`/browse/categories/${id}/playlists?${params || ''}`);
+  }
 }

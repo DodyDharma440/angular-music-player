@@ -12,6 +12,7 @@ import { IntersectionObserverHelper } from 'src/app/helpers/intersection.observe
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
 import { RootState } from 'src/app/models/state.model';
 import { SpotifyService } from 'src/app/services/spotify.service';
+import { mergeRemoveDuplicates } from 'src/app/utils/data';
 
 @Component({
   selector: 'app-liked-songs',
@@ -78,20 +79,17 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
           this.isEmpty = true;
         }
 
-        const _songs = [...this.likedSongs, ...response.items];
-        const reducedSongs = _songs.reduce((prev: LikedSong[], curr) => {
-          const isExist = prev.some((p) => p.track.id === curr.track.id);
-          if (!isExist) {
-            prev.push(curr);
-          }
-          return prev;
-        }, []);
+        const _songs = mergeRemoveDuplicates(
+          this.likedSongs,
+          response.items,
+          (data, curr) => data.track.id === curr.track.id
+        );
 
         if (!this.totalSongs) this.totalSongs = response.total;
         this.store.dispatch(
           GetLikedSongsAction({
             payload: {
-              data: reducedSongs,
+              data: _songs,
               total: response.total,
               nextPage: page + 1,
             },

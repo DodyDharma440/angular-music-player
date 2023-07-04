@@ -10,7 +10,7 @@ export interface Playlist extends BaseData<'playlist'> {
   collaborative: boolean;
   description: string;
   externalUrls: ExternalUrls;
-  images: ImageFormat[];
+  images: Array<ImageFormat | undefined>;
   name: string;
   owner: User;
   public: boolean;
@@ -22,3 +22,14 @@ export interface Playlist extends BaseData<'playlist'> {
 }
 
 export interface UserPlaylistResponse extends PaginationResponse<Playlist> {}
+
+export interface PlaylistResponse {
+  message: string;
+  playlists: PaginationResponse<Playlist>;
+}
+
+export interface PlaylistState {
+  user: Playlist[];
+  featured: Playlist[];
+  category: Record<string, Playlist[]>;
+}
