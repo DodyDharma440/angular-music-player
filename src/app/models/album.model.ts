@@ -1,32 +1,23 @@
 import { Artist } from './artist.model';
-import { ImageFormat } from './image.model';
+import {
+  BaseData,
+  ExternalUrls,
+  ImageFormat,
+  PaginationResponse,
+} from './base.model';
 
-export interface Album {
-  album_type: 'single';
+export interface Album extends BaseData<'album'> {
+  album_type: string;
   artists: Artist[];
   available_markets: string[];
-  external_urls: {
-    spotify: string;
-  };
-  href: string;
-  id: string;
+  external_urls: ExternalUrls;
   images: ImageFormat[];
   name: string;
   release_date: string;
   release_date_precision: string;
   total_tracks: number;
-  type: string;
-  uri: string;
 }
 
 export interface NewAlbumsResponse {
-  albums: {
-    href: string;
-    items: Album[];
-    limit: number;
-    next: string | null;
-    offset: number;
-    previous: string | null;
-    total: number;
-  };
+  albums: PaginationResponse<Album>;
 }

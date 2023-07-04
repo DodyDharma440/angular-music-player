@@ -1,11 +1,11 @@
 import { Action, ActionReducer, MetaReducer } from '@ngrx/store';
-import { State } from '../models/state.model';
+import { RootState } from '../models/state.model';
 import { UserActionType } from '../actions/user.action';
 
 export function clearState(
-  reducer: ActionReducer<State>
-): ActionReducer<State> {
-  return function (state: State | undefined, action: Action): State {
+  reducer: ActionReducer<RootState>
+): ActionReducer<RootState> {
+  return function (state: RootState | undefined, action: Action): RootState {
     if (action.type === UserActionType.CLEAR_STATE) {
       state = undefined;
       localStorage.clear();
@@ -13,4 +13,4 @@ export function clearState(
     return reducer(state, action);
   };
 }
-export const metaReducers: MetaReducer<State>[] = [clearState];
+export const metaReducers: MetaReducer<RootState>[] = [clearState];

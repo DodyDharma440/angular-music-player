@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { GetLikedSongsAction } from 'src/app/actions/liked-songs.action';
 import { IntersectionObserverHelper } from 'src/app/helpers/intersection.observer';
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { SpotifyService } from 'src/app/services/spotify.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
 
   constructor(
     private spotifyService: SpotifyService,
-    private store: Store<State>,
+    private store: Store<RootState>,
     private intersection: IntersectionObserverHelper
   ) {}
 

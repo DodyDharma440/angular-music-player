@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../models/state.model';
+import { RootState } from '../models/state.model';
 import { Song } from '../models/song.model';
 import {
   SetPlayedSongAction,
@@ -12,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class SongService {
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<RootState>) {}
 
   playSong(song: Song, playlists: Song[]) {
     this.store.dispatch(SetPlayedSongAction({ payload: { song, playlists } }));

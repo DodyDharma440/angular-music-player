@@ -11,7 +11,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { RepeatMode, Song, SongState } from 'src/app/models/song.model';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
 import { msToMinutes } from 'src/app/utils/time';
 
@@ -51,7 +51,10 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   currentTime = 0;
   repeatMode: RepeatMode = 'none';
 
-  constructor(private store: Store<State>, private songService: SongService) {}
+  constructor(
+    private store: Store<RootState>,
+    private songService: SongService
+  ) {}
 
   ngOnInit() {
     this.songStateSubs = this.songState$.subscribe(

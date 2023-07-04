@@ -1,10 +1,6 @@
-export interface Artist {
-  external_urls: {
-    spotify: string;
-  };
-  href: string;
-  id: string;
+import { BaseData, ExternalUrls } from './base.model';
+
+export interface Artist extends BaseData<'artist'> {
+  external_urls: ExternalUrls;
   name: string;
-  type: string;
-  uri: string;
 }

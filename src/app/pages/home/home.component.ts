@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { categories as _categories } from 'src/app/constants/home.constant';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
 
 @Component({
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   activeCategory = _categories[0].value;
   user: User | null = null;
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {
     this.store

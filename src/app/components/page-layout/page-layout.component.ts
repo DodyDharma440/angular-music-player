@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { GetUserDataAction } from 'src/app/actions/user.action';
 import { menuItems } from 'src/app/constants/page-layout.constant';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -20,7 +20,7 @@ export class PageLayoutComponent {
     private router: Router,
     private userService: UserService,
     private authService: AuthService,
-    private store: Store<State>
+    private store: Store<RootState>
   ) {}
 
   ngOnInit(): void {

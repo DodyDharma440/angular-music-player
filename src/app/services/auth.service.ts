@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { State } from '../models/state.model';
+import { RootState } from '../models/state.model';
 import { ClearStateAction, GetUserDataAction } from '../actions/user.action';
 import { serialize } from '../utils/request';
 import { SpotifyCallbackResponse } from '../models/auth.model';
@@ -17,7 +17,7 @@ import { SongService } from './song.service';
 export class AuthService {
   constructor(
     private router: Router,
-    private store: Store<State>,
+    private store: Store<RootState>,
     private http: HttpClient,
     private userService: UserService,
     private songService: SongService

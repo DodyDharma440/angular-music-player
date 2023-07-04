@@ -7,7 +7,7 @@ import {
 } from '@angular/animations';
 import { Component, Input, Renderer2, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -46,7 +46,7 @@ export class ContentComponent {
   constructor(
     private authService: AuthService,
     private renderer: Renderer2,
-    private store: Store<State>
+    private store: Store<RootState>
   ) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.isMenuClicked) {

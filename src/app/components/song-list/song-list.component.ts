@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Song, SongPlayer, SongState } from 'src/app/models/song.model';
-import { State } from 'src/app/models/state.model';
+import { RootState } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
 import { msToMinutes } from 'src/app/utils/time';
 
@@ -19,7 +19,10 @@ export class SongListComponent implements OnInit, OnDestroy {
   playedSong: Song | null = null;
   songPlayer: SongPlayer | null = null;
 
-  constructor(private songService: SongService, private store: Store<State>) {}
+  constructor(
+    private songService: SongService,
+    private store: Store<RootState>
+  ) {}
 
   ngOnInit(): void {
     this.playedSongSubs = this.store
