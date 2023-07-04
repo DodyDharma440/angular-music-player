@@ -8,7 +8,9 @@
       *ngFor="let item of menus"
       class="flex items-center rounded-lg px-3 py-3 my-1 hover:bg-gray-50 gap-4 cursor-pointer text-gray-700"
       [routerLink]="item.path"
-      [ngClass]="{ 'text-orange-500 bg-white': isMenuActive(item.path) }"
+      [ngClass]="{
+        'text-orange-500 bg-white': isMenuActive(item.path)
+      }"
     >
       <span class="text-md w-6">
         <i [class]="item.icon"></i>
@@ -20,7 +22,7 @@
   </div>
 
   <div>
-    <h2 class="text-md text-gray-400 mb-3">Your Playlist</h2>
+    <h2 class="text-md text-gray-400 mb-3">Your Playlists</h2>
     <p class="text-center text-gray-500 text-xs" *ngIf="!playlists.length">
       No playlist added.
     </p>
@@ -28,7 +30,12 @@
     <div class="flex flex-col mb-2" *ngIf="playlists.length">
       <div
         *ngFor="let playlist of playlists"
-        class="flex items-center px-1 py-2 gap-4 hover:bg-violet-100 rounded-md cursor-pointer"
+        class="flex items-center px-1 py-2 gap-4 rounded-md cursor-pointer"
+        [routerLink]="['/playlist', playlist.id]"
+        [ngClass]="{
+          'bg-violet-200 hover:bg-violet-200': isActive(playlist.id),
+          'hover:bg-violet-100': !isActive(playlist.id)
+        }"
       >
         <div
           class="w-12 h-12 flex items-center justify-center rounded-md overflow-hidden bg-gray-200"
@@ -49,9 +56,9 @@
           <p class="truncate font-[600]">
             {{ playlist.name }}
           </p>
-          <span class="text-xs text-gray-400"
+          <span class="text-xs text-gray-600"
             >{{ playlist.tracks.total }} song<span
-              *ngIf="playlist.tracks.total > 1"
+              *ngIf="(playlist.tracks.total || 0) > 1"
               >s</span
             ></span
           >

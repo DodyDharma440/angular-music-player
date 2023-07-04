@@ -28,4 +28,8 @@ export class SpotifyService {
   getCategoryPlaylists(id: string, params?: string) {
     return this.http.get(`/browse/categories/${id}/playlists?${params || ''}`);
   }
+
+  getPlaylist(id: string) {
+    return this.http.get(`/playlists/${id}`);
+  }
 }

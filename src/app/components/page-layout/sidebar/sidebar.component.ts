@@ -25,6 +25,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   playlists: Playlist[] = [];
   isMore = false;
 
+  sidebarActiveId = '';
+
   constructor(
     private router: Router,
     private spotifyService: SpotifyService,
@@ -33,9 +35,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store
-      .select((store) => store.playlists.user)
+      .select((store) => store.playlists)
       .subscribe((data) => {
-        this.playlists = data;
+        this.playlists = data.user;
+        this.sidebarActiveId = data.sidebarId;
       });
 
     this.getUserPlaylists();
@@ -46,7 +49,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   isMenuActive(path: string): boolean {
-    return this.router.url.split('?')[0] === path;
+    const currentPath = this.router.url.split('?')[0];
+    if (this.menus.some((m) => m.path === currentPath)) {
+      return this.router.url.split('?')[0] === path;
+    }
+
+    if (path === '/home') {
+      return true;
+    }
+    return false;
+  }
+
+  isActive(id: string) {
+    return this.sidebarActiveId === id;
   }
 
   getUserPlaylists() {

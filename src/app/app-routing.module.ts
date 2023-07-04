@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LoginCallbackComponent } from './pages/login-callback/login-callback.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
+import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playlist-detail.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
   {
     path: 'categories',
     component: CategoriesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'playlist/:id',
+    component: PlaylistDetailComponent,
     canActivate: [AuthGuard],
   },
 ];

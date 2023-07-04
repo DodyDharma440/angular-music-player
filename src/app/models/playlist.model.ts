@@ -4,8 +4,16 @@ import {
   ImageFormat,
   PaginationResponse,
 } from './base.model';
+import { Song } from './song.model';
 import { User } from './user.model';
 
+export interface PlaylistItem {
+  added_at: string;
+  added_by: BaseData & { externalUrls: ExternalUrls };
+  is_local: boolean;
+  primary_color: string | null;
+  track: Song;
+}
 export interface Playlist extends BaseData<'playlist'> {
   collaborative: boolean;
   description: string;
@@ -15,10 +23,7 @@ export interface Playlist extends BaseData<'playlist'> {
   owner: User;
   public: boolean;
   snapshot_id: string;
-  tracks: {
-    href: string;
-    total: number;
-  };
+  tracks: Partial<PaginationResponse<PlaylistItem>>;
 }
 
 export interface UserPlaylistResponse extends PaginationResponse<Playlist> {}
@@ -32,4 +37,5 @@ export interface PlaylistState {
   user: Playlist[];
   featured: Playlist[];
   category: Record<string, Playlist[]>;
+  sidebarId: string;
 }

@@ -5,7 +5,8 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Component, Input, Renderer2, TemplateRef } from '@angular/core';
+import { Component, Input, Renderer2 } from '@angular/core';
+import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/models/state.model';
 import { User } from 'src/app/models/user.model';
@@ -46,7 +47,8 @@ export class ContentComponent {
   constructor(
     private authService: AuthService,
     private renderer: Renderer2,
-    private store: Store<RootState>
+    private store: Store<RootState>,
+    private location: Location
   ) {
     this.renderer.listen('window', 'click', (e: Event) => {
       if (!this.isMenuClicked) {
@@ -70,6 +72,10 @@ export class ContentComponent {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onBack() {
+    this.location.back();
   }
 
   preventCloseOnClick() {

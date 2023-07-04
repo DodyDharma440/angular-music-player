@@ -4,12 +4,14 @@ import {
   GetCategoryPlaylistsAction,
   GetFeaturedPlaylistsAction,
   GetUserPlaylistsAction,
+  SetSidebarPlaylistIdAction,
 } from '../actions/playlist.action';
 
 const initialState: PlaylistState = {
   user: [],
   featured: [],
   category: {},
+  sidebarId: '',
 };
 
 export const playlistReducer = (
@@ -37,6 +39,12 @@ export const playlistReducer = (
           ...state.category,
           [action.payload.id]: action.payload.data,
         },
+      };
+    }),
+    on(SetSidebarPlaylistIdAction, (state, action) => {
+      return {
+        ...state,
+        sidebarId: action.payload,
       };
     })
   );

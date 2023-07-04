@@ -24,6 +24,7 @@ import { SongPlayerComponent } from './components/song-player/song-player.compon
 import { SongListComponent } from './components/song-list/song-list.component';
 import { clearState } from './utils/store';
 import { rootReducer } from './stores/root.reducer';
+import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playlist-detail.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { rootReducer } from './stores/root.reducer';
     ContentComponent,
     SongPlayerComponent,
     SongListComponent,
+    PlaylistDetailComponent,
   ],
   imports: [
     BrowserModule,

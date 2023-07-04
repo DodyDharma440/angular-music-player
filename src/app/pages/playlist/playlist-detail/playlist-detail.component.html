@@ -1,0 +1,19 @@
+<content [contentTitle]="playlist?.name || ''">
+  <p class="text-orange-500 font-[600]">
+    {{ playlist?.tracks?.total }} Song<span
+      *ngIf="(playlist?.tracks?.total || 0) > 1"
+      >s</span
+    >
+  </p>
+
+  <div class="mt-4">
+    <div class="flex flex-col flex-nowrap border-t border-t-gray-300">
+      <song-list
+        *ngFor="let song of playlistSongs; let i = index"
+        [song]="song"
+        [playlist]="playlistSongs"
+        [index]="i"
+      ></song-list>
+    </div>
+  </div>
+</content>

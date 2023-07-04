@@ -37,7 +37,9 @@ export class PageLayoutComponent {
   }
 
   isCanRender() {
+    const ignored = ['/login', '/spotify/callback'];
     const url = this.router.url.split('?')[0];
-    return this.menus.some((item) => item.path === url);
+
+    return !ignored.includes(url);
   }
 }
