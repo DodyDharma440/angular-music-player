@@ -17,10 +17,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
   selector: 'app-liked-songs',
   templateUrl: './liked-songs.component.html',
 })
-export class LikedSongsComponent
-  extends IntersectionObserverHelper
-  implements OnInit, OnDestroy
-{
+export class LikedSongsComponent implements OnInit, OnDestroy {
   @ViewChild('fetchMore') fetchMore: ElementRef<HTMLParagraphElement> | null =
     null;
 
@@ -40,10 +37,9 @@ export class LikedSongsComponent
 
   constructor(
     private spotifyService: SpotifyService,
-    private store: Store<State>
-  ) {
-    super();
-  }
+    private store: Store<State>,
+    private intersection: IntersectionObserverHelper
+  ) {}
 
   ngOnInit(): void {
     this.store
@@ -104,11 +100,13 @@ export class LikedSongsComponent
         this.page = page;
 
         if (!this.isCreateObserve && this.isCanNextPage()) {
-          this.createAndObserve(this.fetchMore!).subscribe((isIntersecting) => {
-            if (isIntersecting) {
-              this.onLoadMore();
-            }
-          });
+          this.intersection
+            .createAndObserve(this.fetchMore!)
+            .subscribe((isIntersecting) => {
+              if (isIntersecting) {
+                this.onLoadMore();
+              }
+            });
           this.isCreateObserve = true;
         }
       });

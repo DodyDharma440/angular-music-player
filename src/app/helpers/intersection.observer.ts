@@ -1,6 +1,9 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Observable, mergeMap, map, distinctUntilChanged } from 'rxjs';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class IntersectionObserverHelper {
   createAndObserve(element: ElementRef): Observable<boolean> {
     return new Observable((observer) => {
