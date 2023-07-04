@@ -29,7 +29,7 @@ export class PageLayoutComponent {
         this.store.dispatch(GetUserDataAction({ payload: data as User }));
       });
       this.store
-        .select((store) => store.songs.playedSong.player)
+        .select((store) => store.song.player)
         .subscribe((data) => {
           this.isPlaying = data.isPlaying;
         });

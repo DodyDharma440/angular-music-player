@@ -23,10 +23,10 @@ export class SongListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.playedSongSubs = this.store
-      .select((store) => store.songs)
+      .select((store) => store.song)
       .subscribe((songs) => {
-        this.playedSong = songs.playedSong.song;
-        this.songPlayer = songs.playedSong.player;
+        this.playedSong = songs.song;
+        this.songPlayer = songs.player;
       });
   }
 

@@ -21,10 +21,11 @@ import { ShowsComponent } from './pages/home/components/shows/shows.component';
 import { AlbumCardComponent } from './components/album-card/album-card.component';
 import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
 import { ContentComponent } from './components/content/content.component';
-import { songsReducer } from './stores/song.reducer';
+import { songReducer } from './stores/song.reducer';
 import { SongPlayerComponent } from './components/song-player/song-player.component';
 import { SongListComponent } from './components/song-list/song-list.component';
 import { clearState } from './utils/store';
+import { likedSongsReducer } from './stores/liked-songs.reducer';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { clearState } from './utils/store';
     StoreModule.forRoot(
       {
         user: userReducer,
-        songs: songsReducer,
+        song: songReducer,
+        likedSongs: likedSongsReducer,
       },
       { metaReducers: [clearState] }
     ),

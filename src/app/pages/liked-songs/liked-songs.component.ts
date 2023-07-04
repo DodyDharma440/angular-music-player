@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { GetLikedSongsAction } from 'src/app/actions/songs.action';
+import { GetLikedSongsAction } from 'src/app/actions/liked-songs.action';
 import { LikedSong, LikedSongsResponse, Song } from 'src/app/models/song.model';
 import { State } from 'src/app/models/state.model';
 import { SpotifyService } from 'src/app/services/spotify.service';
@@ -30,7 +30,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store
-      .select((store) => store.songs.likedSongs)
+      .select((store) => store.likedSongs)
       .subscribe((data) => {
         if (!data.data.length && !this.isEmpty) {
           this.getLikedSongs(this.page);

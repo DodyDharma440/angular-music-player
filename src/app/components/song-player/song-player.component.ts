@@ -40,9 +40,7 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   volumeProgress: ElementRef<HTMLDivElement> | null = null;
 
   songStateSubs: Subscription | null = null;
-  songState$: Observable<SongState['playedSong']> = this.store.select(
-    (store) => store.songs.playedSong
-  );
+  songState$: Observable<SongState> = this.store.select((store) => store.song);
 
   song: Song | null = null;
   playlists: Song[] = [];

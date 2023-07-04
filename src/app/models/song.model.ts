@@ -48,14 +48,13 @@ export interface SongPlayer {
 }
 
 export interface SongState {
-  likedSongs: {
-    data: LikedSong[];
-    total: number;
-    nextPage: number | null;
-  };
-  playedSong: {
-    playlists: Song[];
-    song: Song | null;
-    player: SongPlayer;
-  };
+  playlists: Song[];
+  song: Song | null;
+  player: SongPlayer;
+}
+
+export interface LikedSongState {
+  data: LikedSong[];
+  total: number;
+  nextPage: number | null;
 }

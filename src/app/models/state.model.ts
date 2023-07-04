@@ -1,7 +1,8 @@
-import { SongState } from './song.model';
+import { LikedSongState, SongState } from './song.model';
 import { UserState } from './user.model';
 
 export interface State {
   readonly user: UserState;
-  readonly songs: SongState;
+  readonly song: SongState;
+  readonly likedSongs: LikedSongState;
 }
