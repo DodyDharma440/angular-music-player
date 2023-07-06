@@ -1,1 +1,19 @@
-<p>playlists works!</p>
+<div>
+  <div class="justify-between items-center flex">
+    <h4 class="text-gray-600 text-xl font-semibold">Playlists</h4>
+    <a class="text-gray-500 text-sm" routerLink="/playlist">Show more</a>
+  </div>
+
+  <loader [isLoading]="isLoading" [placeholderHeight]="250">
+    <div class="flex gap-6 overflow-auto no-scrollbar my-4">
+      <item-card
+        *ngFor="let playlist of playlists"
+        [title]="playlist.name"
+        [image]="playlist.images[0]?.url!"
+        [subtitle]="'by ' + playlist.owner.display_name"
+        [tracksCount]="playlist.tracks.total || 0"
+        [linkTo]="['/playlist', playlist.id]"
+      ></item-card>
+    </div>
+  </loader>
+</div>

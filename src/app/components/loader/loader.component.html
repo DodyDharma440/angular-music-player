@@ -1,0 +1,18 @@
+<ng-container>
+  <div
+    class="flex items-center justify-center"
+    *ngIf="isLoading || error"
+    #placeholder
+  >
+    <div *ngIf="isLoading; else errorTemplate">
+      <p *ngIf="!customLoader; else customLoaderElement">Loading...</p>
+      <ng-template #customLoaderElement>
+        <ng-content select="[customLoader]"></ng-content>
+      </ng-template>
+    </div>
+    <ng-template #errorTemplate>
+      <p>Something went wrong.</p>
+    </ng-template>
+  </div>
+  <ng-content *ngIf="!isLoading && !error"></ng-content>
+</ng-container>

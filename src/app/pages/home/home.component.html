@@ -10,21 +10,9 @@
     />
   </div>
 
-  <div class="flex items-center gap-4 my-2">
-    <div
-      *ngFor="let category of categories"
-      class="cursor-pointer"
-      (click)="onChangeCategory(category.value)"
-    >
-      <span
-        class="text-sm text-gray-500"
-        [ngClass]="{ 'text-orange-500 font-[500]': isActive(category.value) }"
-      >
-        {{ category.label }}
-      </span>
-    </div>
+  <div class="flex flex-col gap-6 pt-6">
+    <home-new-albums></home-new-albums>
+    <home-playlists></home-playlists>
+    <home-shows></home-shows>
   </div>
-  <home-new-albums *ngIf="activeCategory === 'albums'"></home-new-albums>
-  <home-playlists *ngIf="activeCategory === 'playlist'"></home-playlists>
-  <home-shows *ngIf="activeCategory === 'shows'"></home-shows>
 </content>

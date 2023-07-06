@@ -1,8 +1,17 @@
 <div>
-  <p *ngIf="isLoading">Loading...</p>
-  <ng-container *ngIf="!isLoading">
+  <div class="justify-between items-center flex">
+    <h4 class="text-gray-600 text-xl font-semibold">New Albums</h4>
+    <a class="text-gray-500 text-sm" routerLink="/album">Show more</a>
+  </div>
+  <loader [isLoading]="isLoading" [placeholderHeight]="250">
     <div class="flex gap-6 overflow-auto no-scrollbar my-4">
-      <album-card *ngFor="let album of albums" [album]="album"></album-card>
+      <item-card
+        *ngFor="let album of albums"
+        [title]="album.name"
+        [image]="album.images[0].url"
+        [subtitle]="getArtistNames(album.artists)"
+        [tracksCount]="album.total_tracks"
+      ></item-card>
     </div>
-  </ng-container>
+  </loader>
 </div>

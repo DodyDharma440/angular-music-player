@@ -17,7 +17,6 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { NewAlbumsComponent } from './pages/home/components/new-albums/new-albums.component';
 import { PlaylistsComponent } from './pages/home/components/playlists/playlists.component';
 import { ShowsComponent } from './pages/home/components/shows/shows.component';
-import { AlbumCardComponent } from './components/album-card/album-card.component';
 import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
 import { ContentComponent } from './components/content/content.component';
 import { SongPlayerComponent } from './components/song-player/song-player.component';
@@ -25,6 +24,8 @@ import { SongListComponent } from './components/song-list/song-list.component';
 import { clearState } from './utils/store';
 import { rootReducer } from './stores/root.reducer';
 import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playlist-detail.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { ItemCardComponent } from './components/item-card/item-card.component';
 
 @NgModule({
   declarations: [
@@ -38,12 +39,13 @@ import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playli
     NewAlbumsComponent,
     PlaylistsComponent,
     ShowsComponent,
-    AlbumCardComponent,
     LikedSongsComponent,
     ContentComponent,
     SongPlayerComponent,
     SongListComponent,
     PlaylistDetailComponent,
+    LoaderComponent,
+    ItemCardComponent,
   ],
   imports: [
     BrowserModule,
