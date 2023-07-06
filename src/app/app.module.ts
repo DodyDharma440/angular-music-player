@@ -26,6 +26,7 @@ import { rootReducer } from './stores/root.reducer';
 import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playlist-detail.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ItemCardComponent } from './components/item-card/item-card.component';
+import { DetailLayoutComponent } from './components/detail-layout/detail-layout.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ItemCardComponent } from './components/item-card/item-card.component';
     PlaylistDetailComponent,
     LoaderComponent,
     ItemCardComponent,
+    DetailLayoutComponent,
   ],
   imports: [
     BrowserModule,

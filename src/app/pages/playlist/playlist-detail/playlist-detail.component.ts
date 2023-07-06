@@ -47,4 +47,9 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
       this.playlistSongs = playlistSongs;
     });
   }
+
+  getTotal() {
+    const total = this.playlist?.tracks.total || 0;
+    return `${total} Song${total > 1 ? 's' : ''}`;
+  }
 }

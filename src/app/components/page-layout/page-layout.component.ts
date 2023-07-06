@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { GetUserDataAction } from 'src/app/actions/user.action';
@@ -20,7 +20,8 @@ export class PageLayoutComponent {
     private router: Router,
     private userService: UserService,
     private authService: AuthService,
-    private store: Store<RootState>
+    private store: Store<RootState>,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +35,10 @@ export class PageLayoutComponent {
           this.isPlaying = data.isPlaying;
         });
     }
+  }
+
+  ngAfterViewChecked() {
+    this.changeDetector.detectChanges();
   }
 
   isCanRender() {
