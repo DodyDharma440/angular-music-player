@@ -14,6 +14,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 })
 export class PlaylistDetailComponent implements OnInit, OnDestroy {
   routerSub!: Subscription;
+  playlistSub!: Subscription;
 
   playlist: Playlist | null = null;
   playlistSongs: Song[] = [];
@@ -34,22 +35,23 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerSub.unsubscribe();
+    this.playlistSub.unsubscribe();
     this.store.dispatch(SetSidebarPlaylistIdAction({ payload: '' }));
   }
 
   getPlaylist(id: string) {
-    this.spotifyService.getPlaylist(id).subscribe((data) => {
+    this.playlistSub = this.spotifyService.getPlaylist(id).subscribe((data) => {
       const response = data as Playlist;
       this.playlist = response;
 
       const playlistSongs =
-        response.tracks.items?.map((item) => item.track) || [];
+        response.tracks?.items?.map((item) => item.track) || [];
       this.playlistSongs = playlistSongs;
     });
   }
 
   getTotal() {
-    const total = this.playlist?.tracks.total || 0;
+    const total = this.playlist?.tracks?.total || 0;
     return `${total} Song${total > 1 ? 's' : ''}`;
   }
 }

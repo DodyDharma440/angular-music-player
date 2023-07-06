@@ -11,8 +11,8 @@
         [title]="playlist.name"
         [image]="playlist.images[0]?.url!"
         [subtitle]="'by ' + playlist.owner.display_name"
-        [tracksCount]="playlist.tracks.total || 0"
-        [linkTo]="['/playlist', playlist.id]"
+        [tracksCount]="playlist.tracks?.total || 0"
+        [routerLink]="['/playlist', playlist.id]"
       ></item-card>
     </div>
   </loader>

@@ -5,6 +5,7 @@ import {
   ImageFormat,
   PaginationResponse,
 } from './base.model';
+import { Song } from './song.model';
 
 export interface Album extends BaseData<'album'> {
   album_type: string;
@@ -16,6 +17,7 @@ export interface Album extends BaseData<'album'> {
   release_date: string;
   release_date_precision: string;
   total_tracks: number;
+  tracks?: Partial<PaginationResponse<Song>>;
 }
 
 export interface NewAlbumsResponse {

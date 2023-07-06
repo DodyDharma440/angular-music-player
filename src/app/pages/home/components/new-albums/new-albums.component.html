@@ -11,6 +11,7 @@
         [image]="album.images[0].url"
         [subtitle]="getArtistNames(album.artists)"
         [tracksCount]="album.total_tracks"
+        [routerLink]="['/album', album.id]"
       ></item-card>
     </div>
   </loader>

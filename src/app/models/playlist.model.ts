@@ -23,7 +23,7 @@ export interface Playlist extends BaseData<'playlist'> {
   owner: User;
   public: boolean;
   snapshot_id: string;
-  tracks: Partial<PaginationResponse<PlaylistItem>>;
+  tracks?: Partial<PaginationResponse<PlaylistItem>>;
 }
 
 export interface UserPlaylistResponse extends PaginationResponse<Playlist> {}

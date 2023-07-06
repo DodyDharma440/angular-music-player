@@ -7,6 +7,9 @@ import { LoginCallbackComponent } from './pages/login-callback/login-callback.co
 import { AuthGuard } from './helpers/auth.guard';
 import { LikedSongsComponent } from './pages/liked-songs/liked-songs.component';
 import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playlist-detail.component';
+import { PlaylistComponent } from './pages/playlist/playlist.component';
+import { AlbumDetailComponent } from './pages/album/album-detail/album-detail.component';
+import { AlbumComponent } from './pages/album/album.component';
 
 const routes: Routes = [
   {
@@ -38,8 +41,23 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'playlist',
+    component: PlaylistComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'playlist/:id',
     component: PlaylistDetailComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'album',
+    component: AlbumComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'album/:id',
+    component: AlbumDetailComponent,
     canActivate: [AuthGuard],
   },
 ];

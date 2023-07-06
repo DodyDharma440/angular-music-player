@@ -27,6 +27,9 @@ import { PlaylistDetailComponent } from './pages/playlist/playlist-detail/playli
 import { LoaderComponent } from './components/loader/loader.component';
 import { ItemCardComponent } from './components/item-card/item-card.component';
 import { DetailLayoutComponent } from './components/detail-layout/detail-layout.component';
+import { AlbumComponent } from './pages/album/album.component';
+import { AlbumDetailComponent } from './pages/album/album-detail/album-detail.component';
+import { PlaylistComponent } from './pages/playlist/playlist.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,9 @@ import { DetailLayoutComponent } from './components/detail-layout/detail-layout.
     LoaderComponent,
     ItemCardComponent,
     DetailLayoutComponent,
+    AlbumComponent,
+    AlbumDetailComponent,
+    PlaylistComponent,
   ],
   imports: [
     BrowserModule,

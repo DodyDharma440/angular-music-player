@@ -9,5 +9,4 @@ export class ItemCardComponent {
   @Input('subtitle') subtitle = '';
   @Input('tracksCount') tracksCount = 0;
   @Input('image') image = '';
-  @Input('linkTo') linkTo?: string | any[];
 }

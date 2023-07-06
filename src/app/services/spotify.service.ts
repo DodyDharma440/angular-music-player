@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map, switchMap } from 'rxjs';
+import { Album } from '../models/album.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,10 +9,18 @@ import { Injectable } from '@angular/core';
 export class SpotifyService {
   constructor(private http: HttpClient) {}
 
+  private wrapType<T>(observer: Observable<Object>) {
+    return observer.pipe(map((value) => value as T));
+  }
+
   getNewAlbums(params?: string) {
     return this.http.get(
       `/browse/new-releases?country=ID&offset=0${params || ''}`
     );
+  }
+
+  getAlbum(id: string) {
+    return this.wrapType<Album>(this.http.get(`/albums/${id}`));
   }
 
   getLikedSongs(params?: string) {

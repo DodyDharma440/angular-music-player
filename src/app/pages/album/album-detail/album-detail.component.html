@@ -1,0 +1,17 @@
+<detail-layout
+  [image]="album?.images?.[0]?.url!"
+  [title]="album?.name || ''"
+  [subtitle]="getTotal()"
+>
+  <p class="text-orange-500 font-[600] text-lg">Album Songs</p>
+  <div class="mt-4">
+    <div class="flex flex-col flex-nowrap border-t border-t-gray-300">
+      <song-list
+        *ngFor="let song of songs; let i = index"
+        [song]="song"
+        [playlist]="songs"
+        [index]="i"
+      ></song-list>
+    </div>
+  </div>
+</detail-layout>
