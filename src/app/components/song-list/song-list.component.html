@@ -25,13 +25,18 @@
     </div>
   </div>
 
-  <div class="overflow-hidden rounded-md w-12 h-12 shadow-md mr-3">
+  <div
+    class="overflow-hidden rounded-md w-12 h-12 shadow-md mr-3 flex items-center justify-center"
+  >
     <img
       [src]="song?.album?.images?.[0]?.url"
       class="object-cover"
       loading="lazy"
-      *ngIf="song?.album?.images?.[0]?.url"
+      *ngIf="song?.album?.images?.[0]?.url else songImgFallback"
     />
+    <ng-template #songImgFallback>
+      <i class="fa-solid fa-music text-gray-400"></i>
+    </ng-template>
   </div>
 
   <div class="flex flex-col justify-center flex-1">
@@ -44,8 +49,10 @@
   <div class="px-6 flex justify-center flex-1">
     <p
       class="text-center font-[500] text-gray-600 text-sm"
-      [ngClass]="{ 'cursor-pointer': !album }"
-      [routerLink]="album ? null : ['/album', song?.album?.id]"
+      [ngClass]="{ 'cursor-pointer': !album || !song?.album?.id }"
+      [routerLink]="
+        album || !song?.album?.id ? null : ['/album', song?.album?.id]
+      "
     >
       {{ song?.album?.name }}
     </p>
