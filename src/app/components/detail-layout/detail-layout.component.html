@@ -3,7 +3,11 @@
     class="bg-gray-200 relative rounded-lg h-[400px] mb-4 flex items-end overflow-hidden"
   >
     <div class="absolute inset-0">
-      <img [src]="image" class="object-cover w-full h-[400px] object-center" />
+      <img
+        *ngIf="image"
+        [src]="image"
+        class="object-cover w-full h-[400px] object-center"
+      />
     </div>
     <div
       class="bg-black bg-opacity-20 w-full h-full absolute inset-0 backdrop-blur-lg"
@@ -14,7 +18,9 @@
         <img [src]="image" class="object-contain" />
       </div>
       <div class="flex flex-col">
-        <h3 class="text-3xl text-white font-bold mb-2">{{ title }}</h3>
+        <h3 class="text-3xl text-white font-bold mb-2">
+          {{ title }}
+        </h3>
         <p class="text-gray-200 font-[600]">
           {{ subtitle }}
         </p>

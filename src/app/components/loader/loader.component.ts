@@ -19,16 +19,23 @@ export class LoaderComponent implements OnInit, OnChanges {
   @Input('placeholderHeight') placeholderHeight = 300;
   @Input('customLoader') customLoader = false;
 
-  @ViewChild('placeholder') placeholder!: ElementRef<HTMLDivElement>;
+  @ViewChild('placeholder') placeholder: ElementRef<HTMLDivElement> | null =
+    null;
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.placeholder.nativeElement.style.height = `${this.placeholderHeight}px`;
+    this.setHeight();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['placeholderHeight']) {
+      this.setHeight();
+    }
+  }
+
+  setHeight() {
+    if (this.placeholder) {
       this.placeholder.nativeElement.style.height = `${this.placeholderHeight}px`;
     }
   }

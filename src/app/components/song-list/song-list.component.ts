@@ -38,7 +38,7 @@ export class SongListComponent implements OnInit, OnDestroy {
   }
 
   isDisabled(song: Song) {
-    return !song.preview_url;
+    return !song?.preview_url;
   }
 
   getArtistNames(song: Song) {
