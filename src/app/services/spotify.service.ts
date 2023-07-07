@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, switchMap } from 'rxjs';
 import { Album, NewAlbumsResponse } from '../models/album.model';
+import { LikedSongsResponse } from '../models/song.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,9 @@ export class SpotifyService {
   }
 
   getLikedSongs(params?: string) {
-    return this.http.get(`/me/tracks?${params || ''}`);
+    return this.http
+      .get(`/me/tracks?${params || ''}`)
+      .pipe(map((res) => res as LikedSongsResponse));
   }
 
   getUserPlaylists(params?: string) {

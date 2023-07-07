@@ -48,11 +48,10 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   getAlbums(page: number) {
-    const offset = (page - 1) * this.scrollService.perPage;
-    this.scrollService.updatePage(page);
+    this.scrollService.page = page;
 
     this.albumSubs = this.spotifyService
-      .getNewAlbums(`offset=${offset}&limit=${this.scrollService.perPage}`)
+      .getNewAlbums(this.scrollService.generateQueryParams(page))
       .subscribe((data) => {
         this.scrollService.updateTotal(data.albums.total);
 

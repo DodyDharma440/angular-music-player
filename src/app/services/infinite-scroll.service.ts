@@ -1,10 +1,16 @@
-import { ElementRef, Inject, Injectable, Optional } from '@angular/core';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  OnDestroy,
+  Optional,
+} from '@angular/core';
 import { IntersectionObserverHelper } from '../helpers/intersection.observer';
 
 @Injectable({
   providedIn: 'root',
 })
-export class InfiniteScrollService {
+export class InfiniteScrollService implements OnDestroy {
   total = 0;
 
   constructor(
@@ -20,6 +26,12 @@ export class InfiniteScrollService {
     this.perPage = perPage || 10;
   }
 
+  ngOnDestroy(): void {
+    this.page = 1;
+    this.perPage = 10;
+    this.total = 0;
+  }
+
   initIntersection<T>(element: ElementRef<T> | null, onLoadMore: () => void) {
     this.intersection.createAndObserve(element!).subscribe((isIntersecting) => {
       if (isIntersecting) {
@@ -28,20 +40,22 @@ export class InfiniteScrollService {
     });
   }
 
+  generateQueryParams(page: number) {
+    const offset = this.getOffset(page);
+
+    const params = new URLSearchParams();
+    params.append('offset', `${offset}`);
+    params.append('limit', `${this.perPage}`);
+
+    return params.toString();
+  }
+
   getOffset(page: number) {
     return (page - 1) * this.perPage;
   }
 
-  updatePage(value: number) {
-    this.page = value;
-  }
-
-  updatePerPage(value: number) {
-    this.perPage = value;
-  }
-
   updateTotal(value: number) {
-    this.total = value;
+    if (!this.total) this.total = value;
   }
 
   canNextPage(currentTotal: number) {
