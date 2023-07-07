@@ -3,7 +3,7 @@ import { Artist } from './artist.model';
 import { BaseData, ExternalUrls, PaginationResponse } from './base.model';
 
 export interface Song extends BaseData<'track'> {
-  album: Album;
+  album?: Album;
   artists: Artist[];
   available_markets: string[];
   disc_number: number;

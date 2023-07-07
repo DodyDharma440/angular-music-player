@@ -30,9 +30,9 @@
   <div class="flex items-center">
     <div class="h-16 w-16 flex items-center justify-center bg-gray-200">
       <img
-        [src]="song.album.images[0].url"
+        [src]="song?.album?.images?.[0]?.url"
         class="object-cover"
-        *ngIf="song; else songImgFallback"
+        *ngIf="song?.album; else songImgFallback"
       />
       <ng-template #songImgFallback>
         <i class="fa-solid fa-music text-gray-400"></i>

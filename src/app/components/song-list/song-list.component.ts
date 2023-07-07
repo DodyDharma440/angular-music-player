@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, map } from 'rxjs';
+import { Album } from 'src/app/models/album.model';
 import { Song, SongPlayer, SongState } from 'src/app/models/song.model';
 import { RootState } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
@@ -14,6 +15,7 @@ export class SongListComponent implements OnInit, OnDestroy {
   @Input() song: Song | null = null;
   @Input() playlist: Song[] = [];
   @Input() index = -1;
+  @Input() album?: Album;
 
   playedSongSubs: Subscription | null = null;
   playedSong: Song | null = null;
@@ -25,8 +27,27 @@ export class SongListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    if (this.album && this.song) {
+      this.song = { ...this.song, album: this.album };
+    }
+
     this.playedSongSubs = this.store
       .select((store) => store.song)
+      .pipe(
+        map((data) => {
+          const _song = data.song ? { ...data.song } : null;
+          if (this.album && _song) _song.album = this.album;
+
+          let _playlist = [...data.playlists];
+          if (this.album) {
+            _playlist = _playlist.map((p) => {
+              return { ...p, album: this.album };
+            });
+          }
+
+          return { ...data, song: _song, playlists: _playlist };
+        })
+      )
       .subscribe((songs) => {
         this.playedSong = songs.song;
         this.songPlayer = songs.player;
