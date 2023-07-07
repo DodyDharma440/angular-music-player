@@ -10,7 +10,7 @@ import { IntersectionObserverHelper } from '../helpers/intersection.observer';
 @Injectable({
   providedIn: 'root',
 })
-export class InfiniteScrollService implements OnDestroy {
+export class InfiniteScrollService {
   total = 0;
 
   constructor(
@@ -26,7 +26,7 @@ export class InfiniteScrollService implements OnDestroy {
     this.perPage = perPage || 10;
   }
 
-  ngOnDestroy(): void {
+  reset() {
     this.page = 1;
     this.perPage = 10;
     this.total = 0;

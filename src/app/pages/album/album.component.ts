@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, map, reduce } from 'rxjs';
 import { Album } from 'src/app/models/album.model';
 import { Artist } from 'src/app/models/artist.model';
 import { InfiniteScrollService } from 'src/app/services/infinite-scroll.service';
@@ -34,6 +34,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.albumSubs.unsubscribe();
+    this.scrollService.reset();
   }
 
   ngAfterViewInit(): void {
@@ -49,19 +50,16 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   getAlbums(page: number) {
     this.scrollService.page = page;
-
     this.albumSubs = this.spotifyService
       .getNewAlbums(this.scrollService.generateQueryParams(page))
+      .pipe(
+        map(({ albums }) => {
+          this.scrollService.updateTotal(albums.total);
+          return mergeRemoveDuplicates(this.albums, albums.items, 'id');
+        })
+      )
       .subscribe((data) => {
-        this.scrollService.updateTotal(data.albums.total);
-
-        const _albums = mergeRemoveDuplicates(
-          this.albums,
-          data.albums.items,
-          (data, curr) => data.id === curr.id
-        );
-
-        this.albums = _albums;
+        this.albums = data;
       });
   }
 

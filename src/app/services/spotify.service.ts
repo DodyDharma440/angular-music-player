@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map, switchMap } from 'rxjs';
 import { Album, NewAlbumsResponse } from '../models/album.model';
 import { LikedSongsResponse } from '../models/song.model';
+import { PlaylistResponse } from '../models/playlist.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,9 @@ export class SpotifyService {
   }
 
   getFeaturedPlaylists(params?: string) {
-    return this.http.get(`/browse/featured-playlists?${params || ''}`);
+    return this.http
+      .get(`/browse/featured-playlists?${params || ''}`)
+      .pipe(map((res) => res as PlaylistResponse));
   }
 
   getCategoryPlaylists(id: string, params?: string) {
