@@ -1,1 +1,25 @@
-<p>album works!</p>
+<content contentTitle="Explore New Albums">
+  <div class="grid grid-cols-[repeat(15,_minmax(0,_1fr))] gap-6">
+    <div *ngFor="let album of albums" class="col-span-12 md:col-span-3">
+      <item-card
+        [title]="album.name"
+        [image]="album.images[0].url"
+        [subtitle]="getArtistNames(album.artists)"
+        [tracksCount]="album.total_tracks"
+        [routerLink]="['/album', album.id]"
+        [fullWidth]="true"
+      ></item-card>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-center">
+    <p
+      class="text-sm my-4 text-gray-500 cursor-pointer"
+      (click)="onLoadMore()"
+      [ngClass]="{ hidden: !isCanNextPage() }"
+      #fetchMore
+    >
+      Load More
+    </p>
+  </div>
+</content>
