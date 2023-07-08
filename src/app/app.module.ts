@@ -30,6 +30,9 @@ import { DetailLayoutComponent } from './components/detail-layout/detail-layout.
 import { AlbumComponent } from './pages/album/album.component';
 import { AlbumDetailComponent } from './pages/album/album-detail/album-detail.component';
 import { PlaylistComponent } from './pages/playlist/playlist.component';
+import { TopSongsComponent } from './pages/home/components/top-songs/top-songs.component';
+import { CurrentSongComponent } from './pages/home/components/current-song/current-song.component';
+import { TopArtistsComponent } from './pages/home/components/top-artists/top-artists.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,9 @@ import { PlaylistComponent } from './pages/playlist/playlist.component';
     AlbumComponent,
     AlbumDetailComponent,
     PlaylistComponent,
+    TopSongsComponent,
+    CurrentSongComponent,
+    TopArtistsComponent,
   ],
   imports: [
     BrowserModule,

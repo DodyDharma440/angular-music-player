@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 export class ItemCardComponent {
   @Input('title') title = '';
   @Input('subtitle') subtitle = '';
-  @Input('tracksCount') tracksCount = 0;
+  @Input('tracksCount') tracksCount?: number;
   @Input('image') image = '';
 
   @Input('fullWidth') fullWidth = false;

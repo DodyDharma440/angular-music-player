@@ -1,0 +1,39 @@
+<div>
+  <div class="justify-between items-center flex">
+    <h4 class="text-gray-600 text-xl font-semibold">Continue Listening</h4>
+    <!-- <a class="text-gray-500 text-sm" routerLink="/top-artists"> </a> -->
+  </div>
+  <div class="rounded-md shadow-md flex overflow-hidden my-4 bg-white">
+    <div
+      class="h-[150px] w-[150px] flex items-center justify-center bg-gray-200"
+    >
+      <img
+        [src]="song?.album?.images?.[0]?.url"
+        class="object-contain h-[150px]"
+        *ngIf="song?.album; else songImgFallback"
+      />
+      <ng-template #songImgFallback>
+        <i class="fa-solid fa-music text-gray-400 text-2xl"></i>
+      </ng-template>
+    </div>
+    <div class="py-4 px-6 flex flex-1 flex-col justify-between relative">
+      <div>
+        <p class="font-[600] text-xl">{{ song?.name }}</p>
+        <span class="text-gray-400 text-sm">{{ getNames() }}</span>
+      </div>
+      <div class="flex w-full items-end justify-between">
+        <p class="text-sm">00:00/00:30</p>
+        <button class="p-1 w-10 h-10 rounded-full bg-orange-500 text-white">
+          <!-- (click)="onTogglePlay()" -->
+          <i
+            [ngClass]="{
+              'fa-pause': isPlaying,
+              'fa-play ml-[3px]': !isPlaying || !song
+            }"
+            class="fa-solid text-xl"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

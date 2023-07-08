@@ -27,8 +27,7 @@ export class NewAlbumsComponent implements OnInit, OnDestroy {
     this.albumsSubs = this.spotifyService
       .getNewAlbums('&limit=5')
       .subscribe((data) => {
-        const response = data as NewAlbumsResponse;
-        this.albums = response.albums.items;
+        this.albums = data.albums.items;
         this.isLoading = false;
       });
   }

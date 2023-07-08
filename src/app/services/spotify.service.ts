@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Album, NewAlbumsResponse } from '../models/album.model';
-import { LikedSongsResponse } from '../models/song.model';
-import { PlaylistResponse } from '../models/playlist.model';
+import { LikedSongsResponse, Song } from '../models/song.model';
+import { Playlist, PlaylistResponse } from '../models/playlist.model';
+import { PaginationResponse } from '../models/base.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,19 +13,19 @@ export class SpotifyService {
   constructor(private http: HttpClient) {}
 
   getNewAlbums(params?: string) {
-    return this.http
-      .get(`/browse/new-releases?${params || ''}`)
-      .pipe(map((res) => res as NewAlbumsResponse));
+    return this.http.get(
+      `/browse/new-releases?${params || ''}`
+    ) as Observable<NewAlbumsResponse>;
   }
 
   getAlbum(id: string) {
-    return this.http.get(`/albums/${id}`).pipe(map((res) => res as Album));
+    return this.http.get(`/albums/${id}`) as Observable<Album>;
   }
 
   getLikedSongs(params?: string) {
-    return this.http
-      .get(`/me/tracks?${params || ''}`)
-      .pipe(map((res) => res as LikedSongsResponse));
+    return this.http.get(
+      `/me/tracks?${params || ''}`
+    ) as Observable<LikedSongsResponse>;
   }
 
   getUserPlaylists(params?: string) {
@@ -32,9 +33,9 @@ export class SpotifyService {
   }
 
   getFeaturedPlaylists(params?: string) {
-    return this.http
-      .get(`/browse/featured-playlists?${params || ''}`)
-      .pipe(map((res) => res as PlaylistResponse));
+    return this.http.get(
+      `/browse/featured-playlists?${params || ''}`
+    ) as Observable<PlaylistResponse>;
   }
 
   getCategoryPlaylists(id: string, params?: string) {
@@ -42,6 +43,12 @@ export class SpotifyService {
   }
 
   getPlaylist(id: string) {
-    return this.http.get(`/playlists/${id}`);
+    return this.http.get(`/playlists/${id}`) as Observable<Playlist>;
+  }
+
+  getUserTopSongs(params?: string) {
+    return this.http.get(`/me/top/tracks?${params}`) as Observable<
+      PaginationResponse<Song>
+    >;
   }
 }

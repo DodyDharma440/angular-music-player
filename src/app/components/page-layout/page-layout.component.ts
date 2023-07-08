@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'div[page-layout]',
+  selector: '[page-layout]',
   templateUrl: './page-layout.component.html',
 })
 export class PageLayoutComponent {
