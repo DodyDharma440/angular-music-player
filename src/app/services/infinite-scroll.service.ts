@@ -6,12 +6,14 @@ import {
   Optional,
 } from '@angular/core';
 import { IntersectionObserverHelper } from '../helpers/intersection.observer';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InfiniteScrollService {
   total = 0;
+  interSubs!: Subscription;
 
   constructor(
     private intersection: IntersectionObserverHelper,
@@ -30,14 +32,21 @@ export class InfiniteScrollService {
     this.page = 1;
     this.perPage = 10;
     this.total = 0;
+    this.clearIntersection();
   }
 
   initIntersection<T>(element: ElementRef<T> | null, onLoadMore: () => void) {
-    this.intersection.createAndObserve(element!).subscribe((isIntersecting) => {
-      if (isIntersecting) {
-        onLoadMore();
-      }
-    });
+    this.interSubs = this.intersection
+      .createAndObserve(element!)
+      .subscribe((isIntersecting) => {
+        if (isIntersecting) {
+          onLoadMore();
+        }
+      });
+  }
+
+  clearIntersection() {
+    this.interSubs.unsubscribe();
   }
 
   generateQueryParams(page: number) {

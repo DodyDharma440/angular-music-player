@@ -59,6 +59,7 @@ export class LikedSongsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.songSubs?.unsubscribe();
+    this.scrollService.clearIntersection();
   }
 
   onSelectSong(song: LikedSong) {
