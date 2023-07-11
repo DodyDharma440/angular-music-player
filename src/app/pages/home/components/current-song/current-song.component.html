@@ -22,18 +22,25 @@
         <span class="text-gray-400 text-sm">{{ getNames() }}</span>
       </div>
       <div class="flex w-full items-end justify-between">
-        <p class="text-sm">00:00/00:30</p>
-        <button class="p-1 w-10 h-10 rounded-full bg-orange-500 text-white">
-          <!-- (click)="onTogglePlay()" -->
+        <p class="text-sm">{{ getCurrentTime() }} / {{ getDuration() }}</p>
+        <button
+          class="p-1 w-10 h-10 rounded-full bg-orange-500 text-white"
+          (click)="onTogglePlay()"
+        >
           <i
             [ngClass]="{
-              'fa-pause': isPlaying,
-              'fa-play ml-[3px]': !isPlaying || !song
+              'fa-pause': songPlayer.isPlaying,
+              'fa-play ml-[3px]': !songPlayer.isPlaying || !song
             }"
             class="fa-solid text-xl"
           ></i>
         </button>
       </div>
+
+      <div
+        class="bg-orange-500 h-1 absolute bottom-0 inset-x-0 w-0"
+        #sliderProgress
+      ></div>
     </div>
   </div>
 </div>
