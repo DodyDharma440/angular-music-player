@@ -37,10 +37,12 @@ export class SongService {
   }
 
   onShuffle(playlists: Song[], songIndex: number) {
-    const lists = playlists.filter(
-      (song, index) => song.preview_url && index !== songIndex
-    );
-    this.setPlayedSong(this.getRandom(lists), playlists);
+    if (playlists.length > 1) {
+      const lists = playlists.filter(
+        (song, index) => song.preview_url && index !== songIndex
+      );
+      this.setPlayedSong(this.getRandom(lists), playlists);
+    }
   }
 
   onPlay(
@@ -51,7 +53,7 @@ export class SongService {
     isRepeatPlaylist: boolean
   ) {
     const handlePlay = (song: Song, playlists: Song[], index: number) => {
-      const isCanSkip =
+      let isCanSkip =
         type === 'increment'
           ? this.checkCanNextSong(song, playlists)
           : this.checkCanPrevSong(song, playlists);
@@ -66,13 +68,20 @@ export class SongService {
       }
 
       const newSong = playlists[_index];
-      if (this.checkCanPlayed(newSong)) {
+      const canPlay = Boolean(newSong?.preview_url);
+
+      if (canPlay) {
         this.setPlayedSong(newSong, playlists);
-      } else {
-        const nextIndex = type === 'increment' ? index + 1 : index - 1;
+        return;
+      }
+
+      const nextIndex = type === 'increment' ? index + 1 : index - 1;
+      const nextSong = playlists[nextIndex];
+      if (nextSong) {
         handlePlay(song, playlists, nextIndex);
       }
     };
+
     const index = type === 'increment' ? songIndex + 1 : songIndex - 1;
     handlePlay(song, playlists, index);
   }
@@ -103,10 +112,6 @@ export class SongService {
     } else {
       this.onPlay(song, playlists, songIndex, 'decrement', isRepeatPlaylist);
     }
-  }
-
-  checkCanPlayed(song: Song) {
-    return Boolean(song.preview_url);
   }
 
   checkCanNextSong(song: Song, playlists: Song[]) {
