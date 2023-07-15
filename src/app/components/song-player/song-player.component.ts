@@ -89,7 +89,11 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
 
     const audio = this.audioRef?.nativeElement;
     audio?.addEventListener('ended', (e) => {
-      if (this.songPlayer.repeatMode === 'song') {
+      if (
+        this.songPlayer.repeatMode === 'song' ||
+        (this.songPlayer.repeatMode === 'playlist' &&
+          this.playlists.length <= 1)
+      ) {
         (e.target as HTMLAudioElement).play();
       } else {
         this.onPlayNext();
