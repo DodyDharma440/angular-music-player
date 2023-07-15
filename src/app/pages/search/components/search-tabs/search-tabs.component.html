@@ -1,0 +1,13 @@
+<div class="flex items-center gap-4">
+  <div
+    *ngFor="let category of categories"
+    class="px-4 py-2 rounded-full text-sm cursor-pointer"
+    [ngClass]="{
+      'bg-orange-500 text-white': active === category.value,
+      'bg-gray-200': active !== category.value,
+    }"
+    (click)="onActivateCategory(category.value)"
+  >
+    {{ category.label }}
+  </div>
+</div>

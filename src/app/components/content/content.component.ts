@@ -55,7 +55,10 @@ export class ContentComponent {
   }
 
   onSearch(input: HTMLInputElement) {
-    this.router.navigate(['/search'], { queryParams: { q: input.value } });
+    this.router.navigate(['/search'], {
+      queryParams: { q: input.value },
+      queryParamsHandling: 'merge',
+    });
   }
 
   preventCloseOnClick() {

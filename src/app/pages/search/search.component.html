@@ -1,1 +1,33 @@
-<content [withSearch]="true">search works!</content>
+<content [withSearch]="true">
+  <search-tabs
+    [active]="category"
+    (onActivate)="onChangeCategory($event)"
+  ></search-tabs>
+
+  <div class="grid grid-cols-[repeat(15,_minmax(0,_1fr))] gap-6 my-4">
+    <div
+      *ngFor="let result of getCategoryItems()"
+      class="col-span-12 md:col-span-3"
+    >
+      <item-card
+        [title]="result.name"
+        [image]="result.image"
+        [subtitle]="'by ' + result.owner"
+        [tracksCount]="result.tracksCount"
+        [routerLink]="result.detailPath"
+        [fullWidth]="true"
+      ></item-card>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-center">
+    <p
+      class="text-sm my-4 text-gray-500 cursor-pointer"
+      (click)="onLoadMore()"
+      [ngClass]="{ hidden: !isCanNextPage() }"
+      #fetchMore
+    >
+      Load More
+    </p>
+  </div>
+</content>

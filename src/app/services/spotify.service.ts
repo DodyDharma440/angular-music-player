@@ -6,6 +6,7 @@ import { LikedSongsResponse, Song } from '../models/song.model';
 import { Playlist, PlaylistResponse } from '../models/playlist.model';
 import { PaginationResponse } from '../models/base.model';
 import { Artist } from '../models/artist.model';
+import { SearchQueries, SearchResponse } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -57,5 +58,11 @@ export class SpotifyService {
     return this.http.get(`/me/top/artists?${params}`) as Observable<
       PaginationResponse<Artist>
     >;
+  }
+
+  searchItems({ type, value, params }: SearchQueries) {
+    return this.http.get(
+      `/search?q=${value}&type=${type}&${params || ''}`
+    ) as Observable<SearchResponse>;
   }
 }

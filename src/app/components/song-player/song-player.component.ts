@@ -174,24 +174,22 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onToggleShuffle() {
-    this.songPlayer.isShuffle = !this.songPlayer.isShuffle;
-    this.songService.updateSongPlayer({ isShuffle: this.songPlayer.isShuffle });
+    this.songService.updateSongPlayer((prev) => ({
+      isShuffle: !prev.player.isShuffle,
+    }));
   }
 
   onToggleRepeat() {
     switch (this.songPlayer.repeatMode) {
       case 'none':
-        this.songPlayer.repeatMode = 'playlist';
         this.songService.updateSongPlayer({ repeatMode: 'playlist' });
         break;
 
       case 'playlist':
-        this.songPlayer.repeatMode = 'song';
         this.songService.updateSongPlayer({ repeatMode: 'song' });
         break;
 
       default:
-        this.songPlayer.repeatMode = 'none';
         this.songService.updateSongPlayer({ repeatMode: 'none' });
         break;
     }

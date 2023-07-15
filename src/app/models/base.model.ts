@@ -24,3 +24,10 @@ export interface BaseData<T extends string = string> {
   type: T;
   uri: string;
 }
+
+export type SpotifyCategory = 'album' | 'playlist' | 'track' | 'artist';
+
+export interface SpotifyCategoryOption {
+  label: string;
+  value: SpotifyCategory;
+}

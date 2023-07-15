@@ -35,6 +35,7 @@ import { CurrentSongComponent } from './pages/home/components/current-song/curre
 import { TopArtistsComponent } from './pages/home/components/top-artists/top-artists.component';
 import { ArtistItemComponent } from './components/artist-item/artist-item.component';
 import { SearchComponent } from './pages/search/search.component';
+import { SearchTabsComponent } from './pages/search/components/search-tabs/search-tabs.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SearchComponent } from './pages/search/search.component';
     TopArtistsComponent,
     ArtistItemComponent,
     SearchComponent,
+    SearchTabsComponent,
   ],
   imports: [
     BrowserModule,

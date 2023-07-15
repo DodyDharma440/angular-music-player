@@ -28,11 +28,13 @@ export class InfiniteScrollService {
     this.perPage = perPage || 10;
   }
 
-  reset() {
+  reset(interClear: boolean = true) {
     this.page = 1;
     this.perPage = 10;
     this.total = 0;
-    this.clearIntersection();
+    if (interClear) {
+      this.clearIntersection();
+    }
   }
 
   initIntersection<T>(element: ElementRef<T> | null, onLoadMore: () => void) {
