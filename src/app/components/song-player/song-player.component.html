@@ -1,11 +1,14 @@
-<div class="fixed bottom-0 left-[280px] right-0 z-20 bg-white">
-  <div *ngIf="!song" class="absolute inset-0 bg-black bg-opacity-10 z-50"></div>
+<div class="fixed bottom-0 left-[280px] right-0 z-20 bg-white dark:bg-dark">
+  <div
+    *ngIf="!song"
+    class="absolute inset-0 bg-black bg-opacity-10 dark:bg-opacity-40 z-50"
+  ></div>
 
-  <div class="relative h-1 bg-gray-300">
+  <div class="relative h-1 bg-gray-300 dark:bg-gray-800">
     <div class="relative h-full w-full flex">
       <input
         type="range"
-        class="bg-gray-300 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
+        class="bg-gray-300 dark:bg-gray-600 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
         min="0"
         max="30"
         [defaultValue]="0"
@@ -28,7 +31,9 @@
   </div>
 
   <div class="flex items-center">
-    <div class="h-16 w-16 flex items-center justify-center bg-gray-200">
+    <div
+      class="h-16 w-16 flex items-center justify-center bg-gray-200 dark:bg-gray-800"
+    >
       <img
         [src]="song?.album?.images?.[0]?.url"
         class="object-cover"
@@ -43,9 +48,13 @@
         <p class="font-[600] text-sm mb-1">
           {{ song?.name || "No song playing" }}
         </p>
-        <span class="text-xs text-gray-500">{{ getNames() }}</span>
+        <span class="text-xs text-gray-500 dark:text-gray-300">{{
+          getNames()
+        }}</span>
       </div>
-      <div class="flex items-center gap-4 justify-center flex-1 text-gray-400">
+      <div
+        class="flex items-center gap-4 justify-center flex-1 text-gray-400 dark:text-gray-200"
+      >
         <button class="mr-4" (click)="onToggleShuffle()">
           <i
             class="fa-solid fa-shuffle text-sm"
@@ -86,14 +95,16 @@
           >
         </button>
       </div>
-      <div class="flex w-[30%] justify-end gap-4">
+      <div
+        class="flex w-[30%] justify-end gap-4 text-gray-500 dark:text-gray-200"
+      >
         <button>
-          <i class="fa-regular fa-heart text-gray-500"></i>
+          <i class="fa-regular fa-heart"></i>
         </button>
         <div class="flex items-center gap-3">
           <button (click)="onToggleMute()">
             <i
-              class="fa-solid text-gray-500"
+              class="fa-solid"
               [ngClass]="{
                 'fa-volume-xmark': songPlayer.isMuted,
                 'fa-volume-high': !songPlayer.isMuted,
@@ -102,12 +113,12 @@
             </i>
           </button>
           <div
-            class="h-2 rounded-full w-[100px] bg-gray-300 relative overflow-hidden"
+            class="h-2 rounded-full w-[100px] bg-gray-300 dark:bg-gray-600 relative overflow-hidden"
           >
             <div class="relative h-full w-full flex">
               <input
                 type="range"
-                class="bg-gray-300 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
+                class="bg-gray-300 dark:bg-gray-600 w-full cursor-pointer appearance-none rounded-lg border-transparent [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:z-30 [&::-webkit-slider-thumb]:relative"
                 min="0"
                 max="1"
                 step="0.01"

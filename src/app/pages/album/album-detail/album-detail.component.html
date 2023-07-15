@@ -5,7 +5,9 @@
 >
   <p class="text-orange-500 font-[600] text-lg">Album Songs</p>
   <div class="mt-4">
-    <div class="flex flex-col flex-nowrap border-t border-t-gray-300">
+    <div
+      class="flex flex-col flex-nowrap border-t border-t-gray-300 dark:border-t-gray-800"
+    >
       <song-list
         *ngFor="let song of songs; let i = index"
         [song]="song"
