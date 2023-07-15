@@ -13,13 +13,14 @@ import { Album } from 'src/app/models/album.model';
 import { SpotifyCategory } from 'src/app/models/base.model';
 import {
   SearchQueries,
-  SearchResponse,
   SearchResult,
   SearchResults,
 } from 'src/app/models/search.model';
+import { Song } from 'src/app/models/song.model';
 import { RootState } from 'src/app/models/state.model';
 import { InfiniteScrollService } from 'src/app/services/infinite-scroll.service';
 import { SearchService } from 'src/app/services/search.service';
+import { SongService } from 'src/app/services/song.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { mergeRemoveDuplicates } from 'src/app/utils/data';
 
@@ -58,7 +59,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private spotifyService: SpotifyService,
     private scrollService: InfiniteScrollService,
     private store: Store<RootState>,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private songService: SongService
   ) {}
 
   ngOnInit(): void {
@@ -173,5 +175,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   getCategoryItems() {
     return this.searchResults[this.withPluralCategory()];
+  }
+
+  onPlaySong(song?: Song) {
+    if (song) {
+      this.songService.playSong(song, [song]);
+    }
   }
 }

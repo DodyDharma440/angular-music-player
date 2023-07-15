@@ -12,10 +12,12 @@
       <item-card
         [title]="result.name"
         [image]="result.image"
-        [subtitle]="'by ' + result.owner"
+        [subtitle]="(result.isArtist ? '' : 'by ') + result.owner"
         [tracksCount]="result.tracksCount"
+        [trackLabel]="result.isArtist ? 'follower' : 'track'"
         [routerLink]="result.detailPath"
         [fullWidth]="true"
+        (click)="onPlaySong(result.song)"
       ></item-card>
     </div>
   </div>

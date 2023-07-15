@@ -46,17 +46,22 @@ export class SearchService {
         name,
         image: album?.images[0].url || '',
         owner: artists.map((a) => a.name).join(', '),
+        song: track,
       };
     });
   }
 
   mapArtists(artists: Artist[]): SearchResult[] {
     return artists.map((artist) => {
-      const { id, name, images } = artist;
+      const { id, name, images, followers, genres } = artist;
       return {
         id,
         name,
+        owner: genres.join(', '),
+        tracksCount: followers.total,
         image: images[0].url || '',
+        isArtist: true,
+        detailPath: ['/artist', id],
       };
     });
   }

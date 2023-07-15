@@ -28,6 +28,8 @@ export interface SearchResult {
   owner?: string;
   tracksCount?: number;
   detailPath?: any[];
+  song?: Song;
+  isArtist?: boolean;
 }
 
 export interface SearchResults

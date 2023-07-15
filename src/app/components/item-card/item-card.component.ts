@@ -8,6 +8,8 @@ export class ItemCardComponent {
   @Input('title') title = '';
   @Input('subtitle') subtitle = '';
   @Input('tracksCount') tracksCount?: number;
+  @Input('trackLabel') trackLabel?: string = 'track';
+
   @Input('image') image = '';
 
   @Input('fullWidth') fullWidth = false;
