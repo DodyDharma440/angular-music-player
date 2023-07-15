@@ -72,7 +72,10 @@ export class SongListComponent implements OnInit, OnDestroy {
         isPlaying: !player.isPlaying,
       }));
     } else {
-      this.songService.playSong(song, this.playlist);
+      this.songService.playSong(song, this.playlist, {
+        assignOrderId: true,
+        isShuffle: this.songPlayer?.isShuffle,
+      });
     }
   }
 

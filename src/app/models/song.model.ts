@@ -36,8 +36,12 @@ export interface SongPlayer {
   currentTime: number;
 }
 
+export interface SongPlaylist extends Song {
+  orderId: number;
+}
+
 export interface SongState {
-  playlists: Song[];
+  playlists: SongPlaylist[];
   song: Song | null;
   player: SongPlayer;
 }

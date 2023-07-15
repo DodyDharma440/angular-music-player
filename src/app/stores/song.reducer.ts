@@ -26,12 +26,17 @@ export const songReducer = (
   const reducer = createReducer(
     initialState,
     on(SetPlayedSongAction, (state, action) => {
+      const isPlaying =
+        action.payload.autoPlay === false && state.player.isPlaying === false
+          ? false
+          : true;
+
       return {
         ...state,
         ...action.payload,
         player: {
           ...state.player,
-          isPlaying: true,
+          isPlaying,
         },
       };
     }),

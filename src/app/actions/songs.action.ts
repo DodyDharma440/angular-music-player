@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { SongState } from '../models/song.model';
+import { SongPlayer, SongState } from '../models/song.model';
 
 export enum UserActionType {
   SET_PLAYED_SONG = 'SET_PLAYED_SONG',
@@ -8,7 +8,11 @@ export enum UserActionType {
 
 export const SetPlayedSongAction = createAction(
   UserActionType.SET_PLAYED_SONG,
-  props<{ payload: Pick<SongState, 'playlists' | 'song'> }>()
+  props<{
+    payload: Pick<SongState, 'playlists' | 'song'> & {
+      autoPlay?: boolean;
+    };
+  }>()
 );
 
 type UpdatePlayerPayloadReturn = Partial<SongState['player']>;

@@ -9,13 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import {
-  RepeatMode,
-  Song,
-  SongPlayer,
-  SongState,
-} from 'src/app/models/song.model';
+import { Subscription } from 'rxjs';
+import { Song, SongPlayer, SongPlaylist } from 'src/app/models/song.model';
 import { RootState } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
 import { msToMinutes } from 'src/app/utils/time';
@@ -44,11 +39,12 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('volumeProgress')
   volumeProgress: ElementRef<HTMLDivElement> | null = null;
 
-  songStateSubs: Subscription | null = null;
-  songState$: Observable<SongState> = this.store.select((store) => store.song);
+  songPlayerSubs!: Subscription;
+  songStateSubs!: Subscription;
+  songPlaylistSubs!: Subscription;
 
   song: Song | null = null;
-  playlists: Song[] = [];
+  playlists: SongPlaylist[] = [];
 
   songPlayer!: SongPlayer;
 
@@ -58,13 +54,23 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.songStateSubs = this.songState$.subscribe(
-      ({ playlists, song, player }) => {
-        this.playlists = playlists;
-        this.song = song;
+    this.songPlayerSubs = this.store
+      .select((store) => store.song.player)
+      .subscribe((player) => {
         this.songPlayer = player;
-      }
-    );
+      });
+
+    this.songStateSubs = this.store
+      .select((store) => store.song.song)
+      .subscribe((song) => {
+        this.song = song;
+      });
+
+    this.songPlayerSubs = this.store
+      .select((store) => store.song.playlists)
+      .subscribe((playlist) => {
+        this.playlists = playlist;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,7 +87,9 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.songStateSubs?.unsubscribe();
+    this.songStateSubs.unsubscribe();
+    this.songPlayerSubs.unsubscribe();
+    this.songPlaylistSubs.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -102,9 +110,9 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
     audio?.addEventListener('pause', () =>
       this.songService.updateSongPlayer({ isPlaying: false })
     );
-    audio?.addEventListener('play', () =>
-      this.songService.updateSongPlayer({ isPlaying: true })
-    );
+    audio?.addEventListener('play', () => {
+      this.songService.updateSongPlayer({ isPlaying: true });
+    });
     audio?.addEventListener('timeupdate', (e) => {
       const rangeValue = (e.target as HTMLAudioElement).currentTime.toString();
       const timeValue = Number(rangeValue.split('.')[0]);
@@ -162,7 +170,6 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
       this.songService.playNextSong(
         this.song,
         this.playlists,
-        this.songPlayer.isShuffle,
         this.songPlayer.repeatMode === 'playlist'
       );
   }
@@ -172,7 +179,6 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
       this.songService.playPrevSong(
         this.song,
         this.playlists,
-        this.songPlayer.isShuffle,
         this.songPlayer.repeatMode === 'playlist'
       );
   }
@@ -181,6 +187,13 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
     this.songService.updateSongPlayer((prev) => ({
       isShuffle: !prev.player.isShuffle,
     }));
+    if (this.song) {
+      this.songService.toggleShuffle(
+        this.song,
+        this.playlists,
+        this.songPlayer.isShuffle
+      );
+    }
   }
 
   onToggleRepeat() {

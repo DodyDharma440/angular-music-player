@@ -9,7 +9,5 @@ export class DetailLayoutComponent implements OnInit {
   @Input('title') title: string = '';
   @Input('subtitle') subtitle: string = '';
 
-  ngOnInit(): void {
-    console.log(this.image);
-  }
+  ngOnInit(): void {}
 }
