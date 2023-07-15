@@ -3,17 +3,29 @@
     <button (click)="onBack()" class="px-4 py-1 hover:bg-gray-100 rounded-md">
       <i class="fa-solid fa-chevron-left"></i>
     </button>
-    <!-- <button class="px-4 py-1 hover:bg-gray-100 rounded-md">
-      <i class="fa-solid fa-chevron-right"></i>
-    </button> -->
   </div>
 
   <div class="px-6 flex-1">
-    <ng-content select="[headerContent]"></ng-content>
+    <ng-container *ngIf="withSearch; else _headerContent">
+      <div class="flex items-center bg-white pl-6 pr-2 rounded-full border">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          class="px-4 py-2 bg-transparent focus:outline-none w-full"
+          placeholder="Search..."
+          (input)="onChangeSearch($event)"
+          [value]="globalSearch$ | async"
+          #searchInput
+          (keyup.enter)="onSearch(searchInput)"
+        />
+      </div>
+    </ng-container>
+    <ng-template #_headerContent>
+      <ng-content select="[headerContent]"></ng-content>
+    </ng-template>
   </div>
 
   <div class="flex items-center pl-4 gap-2">
-    <p class="text-gray-600">{{ user?.display_name }}</p>
+    <p class="text-gray-600">{{ (user$ | async)?.display_name }}</p>
     <div class="relative inline-block text-left">
       <div
         class="flex items-center gap-2 cursor-pointer"
@@ -24,8 +36,8 @@
         >
           <img
             class="object-contain"
-            *ngIf="user?.images?.length; else avatarFallback"
-            [src]="user?.images?.[0]"
+            *ngIf="(user$ | async)?.images?.length; else avatarFallback"
+            [src]="(user$ | async)?.images?.[0]"
           />
           <ng-template #avatarFallback>
             <i class="fa-regular fa-user"></i>

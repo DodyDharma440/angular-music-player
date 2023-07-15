@@ -33,6 +33,8 @@ import { PlaylistComponent } from './pages/playlist/playlist.component';
 import { TopSongsComponent } from './pages/home/components/top-songs/top-songs.component';
 import { CurrentSongComponent } from './pages/home/components/current-song/current-song.component';
 import { TopArtistsComponent } from './pages/home/components/top-artists/top-artists.component';
+import { ArtistItemComponent } from './components/artist-item/artist-item.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { TopArtistsComponent } from './pages/home/components/top-artists/top-art
     TopSongsComponent,
     CurrentSongComponent,
     TopArtistsComponent,
+    ArtistItemComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,12 @@
 <div>
   <div class="justify-between items-center flex">
     <h4 class="text-gray-600 text-xl font-semibold">Your Top Artists</h4>
-    <!-- <a class="text-gray-500 text-sm" routerLink="/top-artists"> </a> -->
+    <a class="text-gray-500 text-sm" routerLink="/top-artists">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+  </div>
+
+  <div class="flex gap-6 overflow-auto no-scrollbar my-4">
+    <artist-item *ngFor="let artist of artists" [artist]="artist"></artist-item>
   </div>
 </div>

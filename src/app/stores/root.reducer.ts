@@ -1,3 +1,4 @@
+import { globalSearchReducer } from './global-search.reducer';
 import { likedSongsReducer } from './liked-songs.reducer';
 import { playlistReducer } from './playlist.reducer';
 import { songReducer } from './song.reducer';
@@ -8,4 +9,5 @@ export const rootReducer = {
   song: songReducer,
   likedSongs: likedSongsReducer,
   playlists: playlistReducer,
+  globalSearch: globalSearchReducer,
 };

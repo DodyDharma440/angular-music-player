@@ -1,6 +1,7 @@
-import { BaseData, ExternalUrls } from './base.model';
+import { BaseData, ExternalUrls, ImageFormat } from './base.model';
 
 export interface Artist extends BaseData<'artist'> {
   external_urls: ExternalUrls;
   name: string;
+  images: ImageFormat[];
 }
