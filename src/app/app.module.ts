@@ -36,6 +36,7 @@ import { TopArtistsComponent } from './pages/home/components/top-artists/top-art
 import { ArtistItemComponent } from './components/artist-item/artist-item.component';
 import { SearchComponent } from './pages/search/search.component';
 import { SearchTabsComponent } from './pages/search/components/search-tabs/search-tabs.component';
+import { searchFeature } from './pages/search/stores/search.reducer';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { SearchTabsComponent } from './pages/search/components/search-tabs/searc
     HttpClientModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(rootReducer, { metaReducers: [clearState] }),
+    StoreModule.forFeature(searchFeature),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

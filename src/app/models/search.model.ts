@@ -34,3 +34,11 @@ export interface SearchResult {
 
 export interface SearchResults
   extends Record<`${SpotifyCategory}s`, SearchResult[]> {}
+
+export interface SearchStateData {
+  page: number;
+  data: SearchResult[];
+}
+
+export interface SearchState
+  extends Record<`${SpotifyCategory}s`, SearchStateData> {}
