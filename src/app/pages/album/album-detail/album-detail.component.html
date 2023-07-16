@@ -1,20 +1,22 @@
-<detail-layout
-  [image]="album?.images?.[0]?.url!"
-  [title]="album?.name || ''"
-  [subtitle]="getTotal()"
->
-  <p class="text-orange-500 font-[600] text-lg">Album Songs</p>
-  <div class="mt-4">
-    <div
-      class="flex flex-col flex-nowrap border-t border-t-gray-300 dark:border-t-gray-800"
-    >
-      <song-list
-        *ngFor="let song of songs; let i = index"
-        [song]="song"
-        [playlist]="songs"
-        [index]="i"
-        [album]="album || undefined"
-      ></song-list>
+<content [withSearch]="true" searchPrefix="album" searchPlaceholder="albums">
+  <detail-layout
+    [image]="album?.images?.[0]?.url!"
+    [title]="album?.name || ''"
+    [subtitle]="getTotal()"
+  >
+    <p class="text-orange-500 font-[600] text-lg">Album Songs</p>
+    <div class="mt-4">
+      <div
+        class="flex flex-col flex-nowrap border-t border-t-gray-300 dark:border-t-gray-800"
+      >
+        <song-list
+          *ngFor="let song of songs; let i = index"
+          [song]="song"
+          [playlist]="songs"
+          [index]="i"
+          [album]="album || undefined"
+        ></song-list>
+      </div>
     </div>
-  </div>
-</detail-layout>
+  </detail-layout>
+</content>

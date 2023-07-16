@@ -1,19 +1,25 @@
-<detail-layout
-  [image]="playlist?.images?.[0]?.url"
-  [title]="playlist?.name || ''"
-  [subtitle]="getTotal()"
+<content
+  [withSearch]="true"
+  searchPrefix="playlist"
+  searchPlaceholder="playlists"
 >
-  <p class="text-orange-500 font-[600] text-lg">Playlist Songs</p>
-  <div class="mt-4">
-    <div
-      class="flex flex-col flex-nowrap border-t border-t-gray-300 dark:border-t-gray-800"
-    >
-      <song-list
-        *ngFor="let song of playlistSongs; let i = index"
-        [song]="song"
-        [playlist]="playlistSongs"
-        [index]="i"
-      ></song-list>
+  <detail-layout
+    [image]="playlist?.images?.[0]?.url"
+    [title]="playlist?.name || ''"
+    [subtitle]="getTotal()"
+  >
+    <p class="text-orange-500 font-[600] text-lg">Playlist Songs</p>
+    <div class="mt-4">
+      <div
+        class="flex flex-col flex-nowrap border-t border-t-gray-300 dark:border-t-gray-800"
+      >
+        <song-list
+          *ngFor="let song of playlistSongs; let i = index"
+          [song]="song"
+          [playlist]="playlistSongs"
+          [index]="i"
+        ></song-list>
+      </div>
     </div>
-  </div>
-</detail-layout>
+  </detail-layout>
+</content>

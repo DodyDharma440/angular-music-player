@@ -16,7 +16,11 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <input
           class="px-4 py-2 bg-transparent focus:outline-none w-full"
-          placeholder="Search..."
+          [placeholder]="
+            'Search' +
+            (searchPlaceholder ? ' ' + searchPlaceholder : '') +
+            '...'
+          "
           (input)="onChangeSearch($event)"
           [value]="globalSearch$ | async"
           #searchInput

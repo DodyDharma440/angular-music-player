@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { toggleMenu } from 'src/app/constants/animation.constant';
 import { Router } from '@angular/router';
 import { UpdateGlobalSearch } from 'src/app/actions/global-search.action';
+import { SpotifyCategory } from 'src/app/models/base.model';
 
 @Component({
   selector: 'content',
@@ -15,6 +16,8 @@ import { UpdateGlobalSearch } from 'src/app/actions/global-search.action';
 export class ContentComponent {
   @Input() contentTitle: string = '';
   @Input() withSearch?: boolean = false;
+  @Input() searchPrefix?: SpotifyCategory = 'track';
+  @Input() searchPlaceholder?: string = '';
 
   user$ = this.store.select((store) => store.user.userData);
   globalSearch$ = this.store.select((store) => store.globalSearch.value);
@@ -56,7 +59,7 @@ export class ContentComponent {
 
   onSearch(input: HTMLInputElement) {
     this.router.navigate(['/search'], {
-      queryParams: { q: input.value },
+      queryParams: { q: input.value, type: this.searchPrefix },
       queryParamsHandling: 'merge',
     });
   }
