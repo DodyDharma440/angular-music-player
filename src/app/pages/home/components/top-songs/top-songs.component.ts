@@ -43,6 +43,8 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   }
 
   onPlaySong(song: Song) {
-    this.songService.playSong(song, [song]);
+    if (song.preview_url) {
+      this.songService.playSong(song, [song]);
+    }
   }
 }

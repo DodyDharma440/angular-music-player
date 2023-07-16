@@ -15,6 +15,7 @@
         [image]="song.album?.images?.[0]?.url || ''"
         [subtitle]="getArtistNames(song.artists)"
         (click)="onPlaySong(song)"
+        [isDisabled]="!song.preview_url"
       ></item-card>
     </div>
   </loader>

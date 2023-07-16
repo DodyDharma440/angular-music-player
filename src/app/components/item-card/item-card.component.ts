@@ -13,4 +13,5 @@ export class ItemCardComponent {
   @Input('image') image = '';
 
   @Input('fullWidth') fullWidth = false;
+  @Input('isDisabled') isDisabled?: boolean;
 }

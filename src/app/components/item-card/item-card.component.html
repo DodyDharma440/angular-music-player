@@ -1,8 +1,10 @@
 <div
-  class="flex flex-col cursor-pointer"
+  class="flex flex-col"
   [ngClass]="{
     'w-full': fullWidth,
-    'w-[280px]': !fullWidth
+    'w-[280px]': !fullWidth,
+    'cursor-not-allowed': isDisabled,
+    'cursor-pointer': !isDisabled,
   }"
 >
   <div class="rounded-lg h-[280px] overflow-hidden mb-2 shadow-md relative">
@@ -13,9 +15,27 @@
     >
       {{ tracksCount }} {{ trackLabel }}<span *ngIf="tracksCount > 1">s</span>
     </div>
+    <div
+      *ngIf="isDisabled"
+      class="bg-gray-300 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-50 absolute inset-0"
+    ></div>
   </div>
-  <p class="truncate text-ellipsis font-bold text-gray-800 dark:text-gray-50">
+  <p
+    class="truncate text-ellipsis font-bold"
+    [ngClass]="{
+      'text-gray-800 dark:text-gray-50': !isDisabled,
+      'text-gray-400 dark:text-gray-500': isDisabled,
+    }"
+  >
     {{ title }}
   </p>
-  <p class="text-sm text-gray-500 dark:text-gray-300">{{ subtitle }}</p>
+  <p
+    class="text-sm"
+    [ngClass]="{
+      'text-gray-500 dark:text-gray-300': !isDisabled,
+      'text-gray-300 dark:text-gray-700': isDisabled
+    }"
+  >
+    {{ subtitle }}
+  </p>
 </div>

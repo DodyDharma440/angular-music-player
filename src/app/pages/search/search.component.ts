@@ -193,7 +193,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   onPlaySong(song?: Song) {
-    if (song) {
+    if (song && song.preview_url) {
       this.songService.playSong(song, [song]);
     }
   }

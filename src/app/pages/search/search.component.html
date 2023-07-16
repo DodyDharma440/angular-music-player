@@ -18,6 +18,7 @@
         [routerLink]="result.detailPath"
         [fullWidth]="true"
         (click)="onPlaySong(result.song)"
+        [isDisabled]="result.song && !result.song.preview_url"
       ></item-card>
     </div>
   </div>
