@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { compactNumber } from 'src/app/utils/number-format';
 
 @Component({
   selector: 'item-card',
@@ -14,4 +15,9 @@ export class ItemCardComponent {
 
   @Input('fullWidth') fullWidth = false;
   @Input('isDisabled') isDisabled?: boolean;
+
+  formatCount() {
+    return compactNumber(this.tracksCount);
+    // return this.tracksCount;
+  }
 }

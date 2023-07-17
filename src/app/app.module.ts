@@ -37,6 +37,7 @@ import { ArtistItemComponent } from './components/artist-item/artist-item.compon
 import { SearchComponent } from './pages/search/search.component';
 import { SearchTabsComponent } from './pages/search/components/search-tabs/search-tabs.component';
 import { searchFeature } from './pages/search/stores/search.reducer';
+import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detail.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { searchFeature } from './pages/search/stores/search.reducer';
     ArtistItemComponent,
     SearchComponent,
     SearchTabsComponent,
+    ArtistDetailComponent,
   ],
   imports: [
     BrowserModule,

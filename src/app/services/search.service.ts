@@ -30,7 +30,7 @@ export class SearchService {
       return {
         id,
         name,
-        image: images[0].url,
+        image: images[0]?.url,
         owner: artists.map((a) => a.name).join(', '),
         tracksCount: total_tracks,
         detailPath: ['/album', id],
@@ -44,7 +44,7 @@ export class SearchService {
       return {
         id,
         name,
-        image: album?.images[0].url || '',
+        image: album?.images[0]?.url || '',
         owner: artists.map((a) => a.name).join(', '),
         song: track,
       };
@@ -59,7 +59,7 @@ export class SearchService {
         name,
         owner: genres.join(', '),
         tracksCount: followers.total,
-        image: images[0].url || '',
+        image: images[0]?.url || '',
         isArtist: true,
         detailPath: ['/artist', id],
       };

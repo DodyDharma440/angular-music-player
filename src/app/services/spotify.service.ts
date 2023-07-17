@@ -48,6 +48,16 @@ export class SpotifyService {
     return this.http.get(`/playlists/${id}`) as Observable<Playlist>;
   }
 
+  getArtist(id: string) {
+    return this.http.get(`/artists/${id}`) as Observable<Artist>;
+  }
+
+  getArtistAlbums(id: string, params?: string) {
+    return this.http.get(`/artists/${id}/albums?${params || ''}`) as Observable<
+      PaginationResponse<Album>
+    >;
+  }
+
   getUserTopSongs(params?: string) {
     return this.http.get(`/me/top/tracks?${params}`) as Observable<
       PaginationResponse<Song>

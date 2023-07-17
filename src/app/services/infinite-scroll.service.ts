@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class InfiniteScrollService {
   total = 0;
+  canNext = true;
   interSubs!: Subscription;
 
   constructor(
@@ -70,6 +71,6 @@ export class InfiniteScrollService {
   }
 
   canNextPage(currentTotal: number) {
-    return this.total > currentTotal;
+    return this.canNext && this.total > currentTotal;
   }
 }

@@ -11,6 +11,7 @@ import { PlaylistComponent } from './pages/playlist/playlist.component';
 import { AlbumDetailComponent } from './pages/album/album-detail/album-detail.component';
 import { AlbumComponent } from './pages/album/album.component';
 import { SearchComponent } from './pages/search/search.component';
+import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -40,6 +41,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+  {
+    path: 'artist/:id',
+    component: ArtistDetailComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

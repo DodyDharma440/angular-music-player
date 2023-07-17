@@ -66,7 +66,7 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
         this.song = song;
       });
 
-    this.songPlayerSubs = this.store
+    this.songPlaylistSubs = this.store
       .select((store) => store.song.playlists)
       .subscribe((playlist) => {
         this.playlists = playlist;
