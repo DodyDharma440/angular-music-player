@@ -5,7 +5,7 @@
     </h4>
   </div>
 
-  <div class="flex gap-6 overflow-auto no-scrollbar my-4">
+  <div class="flex gap-6 overflow-auto no-scrollbar my-4" draggableScroll>
     <artist-item *ngFor="let artist of artists" [artist]="artist"></artist-item>
   </div>
 </ng-container>

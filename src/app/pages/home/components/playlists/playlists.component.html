@@ -9,7 +9,7 @@
   </div>
 
   <loader [isLoading]="isLoading" [placeholderHeight]="250">
-    <div class="flex gap-6 overflow-auto no-scrollbar my-4">
+    <div class="flex gap-6 overflow-auto no-scrollbar my-4" draggableScroll>
       <item-card
         *ngFor="let playlist of playlists"
         [title]="playlist.name"

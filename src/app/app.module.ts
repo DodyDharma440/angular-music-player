@@ -38,6 +38,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { SearchTabsComponent } from './pages/search/components/search-tabs/search-tabs.component';
 import { searchFeature } from './pages/search/stores/search.reducer';
 import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detail.component';
+import { DragScrollDirective } from './directives/drag-scroll.directive';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detai
     SearchComponent,
     SearchTabsComponent,
     ArtistDetailComponent,
+    DragScrollDirective,
   ],
   imports: [
     BrowserModule,
