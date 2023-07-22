@@ -7,7 +7,7 @@ import { Playlist, PlaylistResponse } from '../models/playlist.model';
 import { PaginationResponse } from '../models/base.model';
 import { Artist } from '../models/artist.model';
 import { SearchQueries, SearchResponse } from '../models/search.model';
-import { CategoriesResponse } from '../models/category.model';
+import { CategoriesResponse, Category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,13 +42,19 @@ export class SpotifyService {
   }
 
   getCategoryPlaylists(id: string, params?: string) {
-    return this.http.get(`/browse/categories/${id}/playlists?${params || ''}`);
+    return this.http.get(
+      `/browse/categories/${id}/playlists?${params || ''}`
+    ) as Observable<PlaylistResponse>;
   }
 
   getCategories(params?: string) {
     return this.http.get(
       `/browse/categories?${params || ''}`
     ) as Observable<CategoriesResponse>;
+  }
+
+  getCategory(id: string) {
+    return this.http.get(`/browse/categories/${id}`) as Observable<Category>;
   }
 
   getPlaylist(id: string) {

@@ -12,6 +12,7 @@ import { AlbumDetailComponent } from './pages/album/album-detail/album-detail.co
 import { AlbumComponent } from './pages/album/album.component';
 import { SearchComponent } from './pages/search/search.component';
 import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detail.component';
+import { CategoryDetailComponent } from './pages/categories/category-detail/category-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'categories',
     component: CategoriesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'categories/:id',
+    component: CategoryDetailComponent,
     canActivate: [AuthGuard],
   },
   { path: 'playlist', component: PlaylistComponent, canActivate: [AuthGuard] },
