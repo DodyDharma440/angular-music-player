@@ -7,6 +7,7 @@ import { Playlist, PlaylistResponse } from '../models/playlist.model';
 import { PaginationResponse } from '../models/base.model';
 import { Artist } from '../models/artist.model';
 import { SearchQueries, SearchResponse } from '../models/search.model';
+import { CategoriesResponse } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,12 @@ export class SpotifyService {
 
   getCategoryPlaylists(id: string, params?: string) {
     return this.http.get(`/browse/categories/${id}/playlists?${params || ''}`);
+  }
+
+  getCategories(params?: string) {
+    return this.http.get(
+      `/browse/categories?${params || ''}`
+    ) as Observable<CategoriesResponse>;
   }
 
   getPlaylist(id: string) {

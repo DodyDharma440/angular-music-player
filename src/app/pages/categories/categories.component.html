@@ -1,1 +1,23 @@
-<content contentTitle="Categories">categories works!</content>
+<content contentTitle="Categories">
+  <div class="grid grid-cols-[repeat(15,_minmax(0,_1fr))] gap-6">
+    <div *ngFor="let category of categories" class="col-span-12 md:col-span-3">
+      <item-card
+        [title]="category.name"
+        [image]="category.icons[0].url"
+        [routerLink]="['/category', category.id]"
+        [fullWidth]="true"
+      ></item-card>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-center">
+    <p
+      class="text-sm my-4 text-gray-500 cursor-pointer"
+      (click)="onLoadMore()"
+      [ngClass]="{ hidden: !isCanNextPage() }"
+      #fetchMore
+    >
+      Load More
+    </p>
+  </div>
+</content>
