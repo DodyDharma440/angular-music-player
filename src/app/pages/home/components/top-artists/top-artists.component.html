@@ -1,4 +1,4 @@
-<div>
+<ng-container>
   <div class="justify-between items-center flex">
     <h4 class="text-gray-600 dark:text-gray-200 text-xl font-semibold">
       Your Top Artists
@@ -8,4 +8,4 @@
   <div class="flex gap-6 overflow-auto no-scrollbar my-4">
     <artist-item *ngFor="let artist of artists" [artist]="artist"></artist-item>
   </div>
-</div>
+</ng-container>

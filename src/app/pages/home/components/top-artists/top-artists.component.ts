@@ -4,7 +4,7 @@ import { Artist } from 'src/app/models/artist.model';
 import { SpotifyService } from 'src/app/services/spotify.service';
 
 @Component({
-  selector: 'home-top-artists',
+  selector: '[home-top-artists]',
   templateUrl: './top-artists.component.html',
 })
 export class TopArtistsComponent implements OnInit, OnDestroy {
