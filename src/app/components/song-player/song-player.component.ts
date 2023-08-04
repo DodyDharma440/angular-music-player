@@ -9,10 +9,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Song, SongPlayer, SongPlaylist } from 'src/app/models/song.model';
 import { RootState } from 'src/app/models/state.model';
 import { SongService } from 'src/app/services/song.service';
+import { SpotifyService } from 'src/app/services/spotify.service';
 import { msToMinutes } from 'src/app/utils/time';
 
 @Component({
@@ -46,11 +47,14 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
   song: Song | null = null;
   playlists: SongPlaylist[] = [];
 
+  isLikedSong = false;
+
   songPlayer!: SongPlayer;
 
   constructor(
     private store: Store<RootState>,
-    private songService: SongService
+    private songService: SongService,
+    private spotifyService: SpotifyService
   ) {}
 
   ngOnInit() {
@@ -64,6 +68,7 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
       .select((store) => store.song.song)
       .subscribe((song) => {
         this.song = song;
+        if (song) this.checkIsSaved(song.id);
       });
 
     this.songPlaylistSubs = this.store
@@ -219,6 +224,33 @@ export class SongPlayerComponent implements OnInit, OnDestroy, OnChanges {
         isMuted: !player.isMuted,
       };
     });
+  }
+
+  onToggleLike() {
+    if (this.isLikedSong) {
+      this.onUnlikeSong();
+    } else {
+      this.onLikeSong();
+    }
+  }
+
+  onLikeSong() {
+    this.isLikedSong = true;
+    this.spotifyService.saveSong({ ids: [this.song?.id || ''] }).subscribe();
+  }
+
+  onUnlikeSong() {
+    this.isLikedSong = false;
+    this.spotifyService.unsaveSong([this.song?.id || '']).subscribe();
+  }
+
+  checkIsSaved(id: string) {
+    this.spotifyService
+      .checkIsSongSaved([id])
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.isLikedSong = data[0];
+      });
   }
 
   getNames() {

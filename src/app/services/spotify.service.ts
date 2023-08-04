@@ -8,6 +8,7 @@ import { PaginationResponse } from '../models/base.model';
 import { Artist } from '../models/artist.model';
 import { SearchQueries, SearchResponse } from '../models/search.model';
 import { CategoriesResponse, Category } from '../models/category.model';
+import { serialize } from '../utils/request';
 
 @Injectable({
   providedIn: 'root',
@@ -87,5 +88,19 @@ export class SpotifyService {
     return this.http.get(
       `/search?q=${value}&type=${type}&${params || ''}`
     ) as Observable<SearchResponse>;
+  }
+
+  checkIsSongSaved(ids: string[]) {
+    return this.http.get(
+      `/me/tracks/contains?ids=${ids.join(',')}`
+    ) as Observable<boolean[]>;
+  }
+
+  saveSong(body: { ids: string[] }) {
+    return this.http.put('/me/tracks', body);
+  }
+
+  unsaveSong(ids: string[]) {
+    return this.http.delete(`/me/tracks?ids=${ids.join(',')}`);
   }
 }

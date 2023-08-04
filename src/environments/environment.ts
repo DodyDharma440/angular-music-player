@@ -14,6 +14,7 @@ export const environment = {
       'user-read-playback-state',
       'user-top-read',
       'user-modify-playback-state',
+      'user-library-modify',
       'user-library-read',
       'playlist-read-private',
       'playlist-read-collaborative',
