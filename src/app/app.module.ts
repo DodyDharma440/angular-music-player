@@ -40,6 +40,8 @@ import { searchFeature } from './pages/search/stores/search.reducer';
 import { ArtistDetailComponent } from './pages/artist/artist-detail/artist-detail.component';
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { CategoryDetailComponent } from './pages/categories/category-detail/category-detail.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { PlaylistFormComponent } from './components/page-layout/playlist-form/playlist-form.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { CategoryDetailComponent } from './pages/categories/category-detail/cate
     ArtistDetailComponent,
     DragScrollDirective,
     CategoryDetailComponent,
+    ModalComponent,
+    PlaylistFormComponent,
   ],
   imports: [
     BrowserModule,

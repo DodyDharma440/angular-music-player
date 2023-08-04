@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -6,6 +13,7 @@ import { GetUserPlaylistsAction } from 'src/app/actions/playlist.action';
 import { menuItems } from 'src/app/constants/page-layout.constant';
 import { Playlist, UserPlaylistResponse } from 'src/app/models/playlist.model';
 import { RootState } from 'src/app/models/state.model';
+import { ModalService } from 'src/app/services/modal.service';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { mergeRemoveDuplicates } from 'src/app/utils/data';
 
@@ -15,6 +23,7 @@ import { mergeRemoveDuplicates } from 'src/app/utils/data';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   @Input() canRender: boolean = true;
+  @ViewChild('modalTemplate') modalTemplate!: TemplateRef<any>;
 
   page = 1;
   perPage = 5;
@@ -30,7 +39,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private spotifyService: SpotifyService,
-    private store: Store<RootState>
+    private store: Store<RootState>,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -44,8 +54,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.getUserPlaylists();
   }
 
+  ngAfterViewInit() {
+    this.modalService.open(this.modalTemplate, { title: 'Add New Playlist' });
+  }
+
   ngOnDestroy() {
     this.playlistSubs?.unsubscribe();
+  }
+
+  openPlaylistForm(template: TemplateRef<any>) {
+    this.modalService.open(template, { title: 'Add New Playlist' }).subscribe();
+  }
+
+  closePlaylistForm() {
+    this.modalService.element.close();
   }
 
   isMenuActive(path: string): boolean {

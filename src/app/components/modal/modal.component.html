@@ -1,0 +1,26 @@
+<div class="fixed inset-0 z-[9999]">
+  <div
+    class="bg-black absolute inset-0 bg-opacity-50 w-full h-full"
+    (click)="close()"
+    #modalOverlay
+  ></div>
+
+  <div class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+    <div class="bg-white dark:bg-dark rounded-md" #modalBody>
+      <div
+        class="flex justify-between items-center border-b border-gray-100 dark:border-gray-700 px-4 py-2"
+      >
+        <h4 class="font-semibold text-lg">{{ title }}</h4>
+        <button
+          (click)="close()"
+          class="hover:bg-slate-100 w-9 h-9 dark:hover:bg-gray-700 rounded-md flex items-center justify-center"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="p-4">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

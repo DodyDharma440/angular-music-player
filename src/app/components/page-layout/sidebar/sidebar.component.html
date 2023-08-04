@@ -25,9 +25,10 @@
   </div>
 
   <div>
-    <h2 class="text-md text-gray-400 dark:text-gray-500 mb-3">
-      Your Playlists
-    </h2>
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-md text-gray-400 dark:text-gray-500">Your Playlists</h2>
+      <button (click)="openPlaylistForm(modalTemplate)">Add</button>
+    </div>
     <p class="text-center text-gray-500 text-xs" *ngIf="!playlists.length">
       No playlist added.
     </p>
@@ -77,3 +78,7 @@
     </p>
   </div>
 </ng-container>
+
+<ng-template #modalTemplate>
+  <playlist-form (cancel)="closePlaylistForm()"></playlist-form>
+</ng-template>
